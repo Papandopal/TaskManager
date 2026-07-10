@@ -1,34 +1,42 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
-namespace TaskManagerStart
+var builder = WebApplication.CreateBuilder(args);
+
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .Build();
+
+var authenticationOptions = new AuthentificationOptions(configuration);
+
+builder.Services.AddControllers();
+builder.Services.AddOpenApi();
+
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults)
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+    app.MapOpenApi();
+}
 
-            // Add services to the container.
+app.UseHttpsRedirection();
 
-            builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+app.UseAuthorization();
 
-            var app = builder.Build();
+app.MapControllers();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi();
-            }
+app.Run();
 
-            app.UseHttpsRedirection();
+public class AuthentificationOptions(IConfiguration configuration)
+{
+    public string ISSUER { get; } = configuration["JWTBearer:ISSUER"] ?? throw new Exception("\"ISSUER\" not found in configuration");
 
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
-        }
-    }
+    public string AUDIENCE { get; } = configuration["JWTBearer:AUDIENCE"] ?? throw new Exception("\"ISSUER\" not found in configuration");
+    public string KEY { get; } = configuration["JWTBearer:KEY"] ?? throw new Exception("\"ISSUER\" not found in configuration");
+    public SymmetricSecurityKey GetSymmetricSecurityKey() => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
 }
