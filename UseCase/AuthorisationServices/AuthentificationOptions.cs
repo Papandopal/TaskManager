@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace UseCase
+namespace UseCase.AuthorisationServices
 {
     public class AuthentificationOptions(IConfiguration configuration)
     {
