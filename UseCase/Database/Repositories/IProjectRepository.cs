@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities;
 
-namespace Domain.Enums
+namespace UseCase.Database.Repositories
 {
-    public enum ProjectStatus
+    public interface IProjectRepository : IRepository<Project>
     {
-        Active, Complited
     }
 }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Enums
 {
-    internal class TaskStatus
+    public enum TaskStatus
     {
+        ToDo, InProgress, Done
     }
 }

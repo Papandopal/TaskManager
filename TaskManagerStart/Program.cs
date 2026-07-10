@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using UseCase.AuthorisationServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +15,19 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(JwtBearerDefaults)
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = authenticationOptions.ISSUER,
+        ValidateAudience = true,
+        ValidAudience = authenticationOptions.AUDIENCE,
+        ValidateLifetime = true,
+        IssuerSigningKey = authenticationOptions.GetSymmetricSecurityKey(),
+        ValidateIssuerSigningKey = true,
+    };
+});
 
 var app = builder.Build();
 
@@ -31,12 +43,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-public class AuthentificationOptions(IConfiguration configuration)
-{
-    public string ISSUER { get; } = configuration["JWTBearer:ISSUER"] ?? throw new Exception("\"ISSUER\" not found in configuration");
-
-    public string AUDIENCE { get; } = configuration["JWTBearer:AUDIENCE"] ?? throw new Exception("\"ISSUER\" not found in configuration");
-    public string KEY { get; } = configuration["JWTBearer:KEY"] ?? throw new Exception("\"ISSUER\" not found in configuration");
-    public SymmetricSecurityKey GetSymmetricSecurityKey() => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
-}

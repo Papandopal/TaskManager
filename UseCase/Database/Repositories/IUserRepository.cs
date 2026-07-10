@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities;
 
-namespace Domain
+namespace UseCase.Database.Repositories
 {
-    internal class Task
+    public interface IUserRepository : IRepository<User>
     {
     }
 }
