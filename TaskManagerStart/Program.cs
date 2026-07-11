@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using TaskManagerStart;
+using Infrastructure.Database;
 using UseCase.AuthorisationServices;
+using UseCase.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +31,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuerSigningKey = true,
     };
 });
+
+builder.Services.AddAutoMapper(opt =>
+{
+    opt.AddProfile<Mapper>();
+});
+
+builder.Services.AddSingleton<AuthentificationOptions>();
+builder.Services.AddSingleton<IUnitOfWork, LocalUnitOfWork>();
 
 var app = builder.Build();
 

@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using UseCase.Database.Repositories;
 
-namespace TaskManagerStart.Database.Repositories
+namespace Infrastructure.Database.Repositories
 {
     public class LocalTaskRepository : IProjectTaskRepository
     {

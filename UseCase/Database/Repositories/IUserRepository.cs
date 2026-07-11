@@ -9,5 +9,7 @@ namespace UseCase.Database.Repositories
 {
     public interface IUserRepository : IRepository<User>
     {
+        public User GetByEmail(string email);
+        public bool IsExistsByEmail(string email);
     }
 }

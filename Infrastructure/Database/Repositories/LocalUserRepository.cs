@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using UseCase.Database.Repositories;
 
-namespace TaskManagerStart.Database.Repositories
+namespace Infrastructure.Database.Repositories
 {
     public class LocalUserRepository : IUserRepository
     {
@@ -23,9 +23,22 @@ namespace TaskManagerStart.Database.Repositories
             return users;
         }
 
+        public User GetByEmail(string email)
+        {
+            var user = users.FirstOrDefault(x=>x.Email == email);
+            if (user is null) throw new Exception("user not found");
+            return user;
+        }
+
         public bool IsExists(Guid id)
         {
             var user = users.FirstOrDefault(x => x.Id == id);
+            return user is not null;
+        }
+
+        public bool IsExistsByEmail(string email)
+        {
+            var user = users.FirstOrDefault(x => x.Email == email);
             return user is not null;
         }
 
