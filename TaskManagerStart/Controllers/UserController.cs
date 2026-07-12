@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagerStart.DTOs;
-using UseCase.AuthorisationServices.MediatR.Commands;
+using UseCase.UserServices.MediatR.Commands;
 
 namespace TaskManagerStart.Controllers
 {

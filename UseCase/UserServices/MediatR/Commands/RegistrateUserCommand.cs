@@ -1,8 +1,8 @@
 ﻿using System;
 using MediatR;
-using UseCase.AuthorisationServices.MediatR.Responces;
+using UseCase.UserServices.MediatR.Responces;
 
-namespace UseCase.AuthorisationServices.MediatR.Commands
+namespace UseCase.UserServices.MediatR.Commands
 {
     public record RegistrateUserCommand : IRequest<RegistrateUserResponce>
     {

@@ -1,12 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
 using MediatR;
-using UseCase.AuthorisationServices.MediatR.Commands;
-using UseCase.AuthorisationServices.MediatR.Responces;
-using UseCase.AuthorisationServices.Services;
-using UseCase.AuthorisationServices.Services.DTOs;
+using UseCase.UserServices.MediatR.Commands;
+using UseCase.UserServices.MediatR.Responces;
+using UseCase.UserServices.Services;
+using UseCase.UserServices.Services.DTOs;
 
-namespace UseCase.AuthorisationServices.MediatR.Handlers
+namespace UseCase.UserServices.MediatR.Handlers
 {
     public class VerifyUserService(IMapper mapper, UserService userService, CryptService cryptService, JwtService jwtService) : IRequestHandler<VerifyUserCommand, VerifyUserResponce>
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UseCase.AuthorisationServices.MediatR.Responces
+namespace UseCase.UserServices.MediatR.Responces
 {
     public class RegistrateUserResponce
     {

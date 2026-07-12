@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using TaskManagerStart;
 using Infrastructure.Database;
-using UseCase.AuthorisationServices;
+using UseCase.UserServices;
 using UseCase.Database;
-using UseCase.AuthorisationServices.Services;
+using UseCase.UserServices.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

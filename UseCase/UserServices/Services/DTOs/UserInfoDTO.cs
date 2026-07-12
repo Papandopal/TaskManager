@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UseCase.AuthorisationServices.Services.DTOs
+namespace UseCase.UserServices.Services.DTOs
 {
     public class UserInfoDTO
     {

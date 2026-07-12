@@ -11,11 +11,11 @@ namespace Infrastructure.Database.Repositories
             users.Add(entity);
         }
 
-        public void Delete(User entity)
+        public void Delete(Guid id)
         {
-            var user = users.FirstOrDefault(x => x.Id == entity.Id);
+            var user = users.FirstOrDefault(x => x.Id == id);
             if (user is null) throw new Exception("user not found");
-            users.Remove(entity);
+            users.Remove(user);
         }
 
         public IEnumerable<User> GetAll()
@@ -25,7 +25,14 @@ namespace Infrastructure.Database.Repositories
 
         public User GetByEmail(string email)
         {
-            var user = users.FirstOrDefault(x=>x.Email == email);
+            var user = users.FirstOrDefault(x => x.Email == email);
+            if (user is null) throw new Exception("user not found");
+            return user;
+        }
+
+        public User GetById(Guid id)
+        {
+            var user = users.FirstOrDefault(x => x.Id == id);
             if (user is null) throw new Exception("user not found");
             return user;
         }

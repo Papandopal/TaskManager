@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UseCase.AuthorisationServices.Services
+namespace UseCase.ProjectServices.MediatR.Responces
 {
-    public class ProjectService
+    public class DeleteProjectResponce
     {
-        public void CreateProject
     }
 }

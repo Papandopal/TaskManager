@@ -1,4 +1,4 @@
-﻿namespace UseCase.AuthorisationServices.Services.DTOs
+﻿namespace UseCase.UserServices.Services.DTOs
 {
     public class CreatePasswordHashDTO
     {

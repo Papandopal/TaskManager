@@ -10,8 +10,9 @@ namespace UseCase.Database.Repositories
     {
         public void Add(T entity);
         public void Update(T entity);
-        public void Delete(T entity);
+        public void Delete(Guid id);
         public bool IsExists(Guid id);
+        public T GetById(Guid id);
         public IEnumerable<T> GetAll();
     }
 }

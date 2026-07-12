@@ -7,5 +7,6 @@ namespace TaskManagerStart.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
+        
     }
 }

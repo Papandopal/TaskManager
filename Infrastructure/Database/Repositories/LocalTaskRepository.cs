@@ -11,9 +11,9 @@ namespace Infrastructure.Database.Repositories
             tasks.Add(entity);
         }
 
-        public void Delete(ProjectTask entity)
+        public void Delete(Guid id)
         {
-            var task = tasks.FirstOrDefault(x=>x.Id == entity.Id);
+            var task = tasks.FirstOrDefault(x => x.Id == id);
             if (task is null) throw new Exception("task not found");
             tasks.Remove(task);
         }
@@ -23,10 +23,17 @@ namespace Infrastructure.Database.Repositories
             return tasks;
         }
 
+        public ProjectTask GetById(Guid id)
+        {
+            var task = tasks.FirstOrDefault(x => x.Id == id);
+            if (task is null) throw new Exception("task not found");
+            return task;
+        }
+
         public bool IsExists(Guid id)
         {
             var task = tasks.FirstOrDefault(x => x.Id == id);
-            return task is not null; 
+            return task is not null;
         }
 
         public void Update(ProjectTask entity)

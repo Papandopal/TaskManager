@@ -1,6 +1,6 @@
-﻿using UseCase.AuthorisationServices.Services.DTOs;
+﻿using UseCase.UserServices.Services.DTOs;
 
-namespace UseCase.AuthorisationServices.Services
+namespace UseCase.UserServices.Services
 {
     public class CryptService
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
-using UseCase.AuthorisationServices.MediatR.Responces;
+using UseCase.UserServices.MediatR.Responces;
 
-namespace UseCase.AuthorisationServices.MediatR.Commands
+namespace UseCase.UserServices.MediatR.Commands
 {
     public class VerifyUserCommand : IRequest<VerifyUserResponce>
     {

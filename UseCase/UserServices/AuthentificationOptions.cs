@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace UseCase.AuthorisationServices
+namespace UseCase.UserServices
 {
     public class AuthentificationOptions(IConfiguration configuration)
     {

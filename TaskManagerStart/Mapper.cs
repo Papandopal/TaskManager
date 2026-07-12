@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using TaskManagerStart.DTOs;
-using UseCase.AuthorisationServices.MediatR.Commands;
-using UseCase.AuthorisationServices.Services.DTOs;
+using UseCase.UserServices.MediatR.Commands;
+using UseCase.UserServices.Services.DTOs;
 
 namespace TaskManagerStart
 {

@@ -24,6 +24,13 @@ namespace Infrastructure.Database.Repositories
             return projects;
         }
 
+        public Project GetById(Guid id)
+        {
+            var project = projects.FirstOrDefault(x => x.Id == id);
+            if (project is null) throw new Exception("project not found");
+            return project;
+        }
+
         public bool IsExists(Guid id)
         {
             var project = projects.FirstOrDefault(x => x.Id == id);

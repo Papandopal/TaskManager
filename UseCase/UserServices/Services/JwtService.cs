@@ -1,9 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
-using UseCase.AuthorisationServices.Services.DTOs;
+using UseCase.UserServices.Services.DTOs;
 
-namespace UseCase.AuthorisationServices.Services
+namespace UseCase.UserServices.Services
 {
     public class JwtService(AuthentificationOptions authentificationOptions)
     {
