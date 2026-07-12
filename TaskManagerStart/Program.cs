@@ -4,6 +4,7 @@ using TaskManagerStart;
 using Infrastructure.Database;
 using UseCase.AuthorisationServices;
 using UseCase.Database;
+using UseCase.AuthorisationServices.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,15 @@ builder.Services.AddAutoMapper(opt =>
 {
     opt.AddProfile<Mapper>();
 });
+
+builder.Services.AddMediatR(opt =>
+{
+    opt.RegisterServicesFromAssembly(typeof(UseCase.Database.IUnitOfWork).Assembly);
+});
+
+builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<JwtService>();
+builder.Services.AddTransient<CryptService>();
 
 builder.Services.AddSingleton<AuthentificationOptions>();
 builder.Services.AddSingleton<IUnitOfWork, LocalUnitOfWork>();

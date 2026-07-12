@@ -7,7 +7,7 @@ namespace UseCase.AuthorisationServices.Services
 {
     public class UserService(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        public void RegistrateUser(RegistrateUserDTO registrateUserDTO)
+        public void RegistrateUser(RegistrateUserUseCaseDTO registrateUserDTO)
         {
             unitOfWork.UserRepository.Add(mapper.Map<User>(registrateUserDTO));
         }

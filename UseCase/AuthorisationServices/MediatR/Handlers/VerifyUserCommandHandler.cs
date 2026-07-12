@@ -12,7 +12,7 @@ namespace UseCase.AuthorisationServices.MediatR.Handlers
     {
         public Task<VerifyUserResponce> Handle(VerifyUserCommand request, CancellationToken cancellationToken)
         {
-            var userInfo = userService.GetByEmail(request.Email);
+            var userInfo = mapper.Map<UserInfoDTO>(userService.GetByEmail(request.Email));
 
             var verifyUserDTO = mapper.Map<VerifyPasswordDTO>(request);
 

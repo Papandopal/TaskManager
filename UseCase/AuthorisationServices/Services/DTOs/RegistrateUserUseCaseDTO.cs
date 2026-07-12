@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UseCase.AuthorisationServices.Services.DTOs
 {
-    public class RegistrateUserDTO
+    public class RegistrateUserUseCaseDTO
     {
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;

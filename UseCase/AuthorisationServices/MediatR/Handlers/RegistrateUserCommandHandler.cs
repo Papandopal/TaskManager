@@ -17,7 +17,7 @@ namespace UseCase.AuthorisationServices.MediatR.Handlers
         {
             var passwordHash = cryptService.CreatePasswordHash(mapper.Map<CreatePasswordHashDTO>(request));
 
-            var registrateUserDTO = mapper.Map<RegistrateUserDTO>(request);
+            var registrateUserDTO = mapper.Map<RegistrateUserUseCaseDTO>(request);
             registrateUserDTO.PasswordHash = passwordHash;
 
             userService.RegistrateUser(registrateUserDTO);

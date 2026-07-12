@@ -10,8 +10,8 @@ namespace Domain.Entities
     public class Project
     {
         public Guid Id { get; init; }
-        public string Name { get; set; } = string.Empty;
         public Guid OwnerId { get; set; }
+        public string Name { get; set; } = string.Empty;
         public ProjectStatus Status { get; set; }
         public DateTime CreatedAt { get; set; }
     }
