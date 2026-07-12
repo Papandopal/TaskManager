@@ -12,9 +12,9 @@ namespace Infrastructure.Database.Repositories
             projects.Add(entity);
         }
 
-        public void Delete(Project entity)
+        public void Delete(Guid id)
         {
-            var project = projects.FirstOrDefault(x => x.Id == entity.Id);
+            var project = projects.FirstOrDefault(x => x.Id == id);
             if (project is null) throw new Exception("project not found");
             projects.Remove(project);
         }

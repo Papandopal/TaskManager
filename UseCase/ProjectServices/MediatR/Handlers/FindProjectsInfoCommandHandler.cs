@@ -13,7 +13,7 @@ namespace UseCase.ProjectServices.MediatR.Handlers
     {
         public Task<FindProjectsInfoResponce> Handle(FindProjectsInfoCommand request, CancellationToken cancellationToken)
         {
-            
+            throw new NotImplementedException();
         }
     }
 }
