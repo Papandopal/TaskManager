@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace UseCase.ProjectServices.Services.DTOs
 {
-    internal class DeleteProjectUseCaseDTO
+    public class DeleteProjectUseCaseDTO
     {
+        public Guid Id { get; set; }
+        public Guid DeleterId { get; set; }
     }
 }

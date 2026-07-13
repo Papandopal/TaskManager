@@ -14,16 +14,16 @@ using UseCase.ProjectServices.Services.DTOs;
 namespace UseCase.ProjectServices.MediatR.Handlers
 {
     public class GetProjectsInfoByFilterCommandHandler(ProjectService projectService, PaginationService<Project> paginationService,
-        IMapper mapper) : IRequestHandler<GetProjectsInfoByFilterCommand, GetProjectsInfoByFilterResponce>
+        IMapper mapper) : IRequestHandler<FIlterProjectsCommand, GetProjectsInfoByFilterResponce>
     {
-        public Task<GetProjectsInfoByFilterResponce> Handle(GetProjectsInfoByFilterCommand request, CancellationToken cancellationToken)
+        public Task<GetProjectsInfoByFilterResponce> Handle(FIlterProjectsCommand request, CancellationToken cancellationToken)
         {
             var projects = projectService.GetAll();
 
             paginationService.SetItems(projects);
 
             var filtered_projects = mapper.Map<IEnumerable<ShortProjectInfoDTO>>
-                (paginationService.Filter(mapper.Map<FilterProjectsDTO>(request)));
+                (paginationService.Filter(mapper.Map<FilterProjectsUseCaseDTO>(request)));
 
             return Task.FromResult(new GetProjectsInfoByFilterResponce { Projects = filtered_projects });
         }

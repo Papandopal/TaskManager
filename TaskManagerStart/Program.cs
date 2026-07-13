@@ -29,9 +29,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidIssuer = authenticationOptions.ISSUER,
         ValidateAudience = true,
         ValidAudience = authenticationOptions.AUDIENCE,
-        ValidateLifetime = true,
-        IssuerSigningKey = authenticationOptions.GetSymmetricSecurityKey(),
         ValidateIssuerSigningKey = true,
+        IssuerSigningKey = authenticationOptions.GetSymmetricSecurityKey(),
+        ValidateLifetime = false,
     };
 });
 
@@ -64,6 +64,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

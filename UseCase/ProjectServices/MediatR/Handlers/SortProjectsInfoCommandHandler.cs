@@ -20,7 +20,7 @@ namespace UseCase.ProjectServices.MediatR.Handlers
         {
             var projects = projectService.GetAll();
 
-            var sorted_projects = paginationService.Sort(mapper.Map<SortProjectsDTO>(request));
+            var sorted_projects = paginationService.Sort(mapper.Map<SortProjectsUseCaseDTO>(request));
 
             return Task.FromResult(new SortProjectsInfoResponce { Projects = mapper.Map<IEnumerable<ShortProjectInfoDTO>>(projects) });
         }

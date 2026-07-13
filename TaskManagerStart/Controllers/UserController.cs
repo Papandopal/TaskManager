@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TaskManagerStart.DTOs;
+using TaskManagerStart.DTOs.User;
 using UseCase.UserServices.MediatR.Commands;
 
 namespace TaskManagerStart.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController(IMediator mediator, IMapper mapper) : ControllerBase
     {
-        [HttpPost("registrate")]
+        [HttpPost]
         public async Task<JsonResult> Registrate([FromBody] RegistrateUserDTO registrateUserDTO)
         {
             var registrateUserCommand = mapper.Map<RegistrateUserCommand>(registrateUserDTO);
@@ -20,7 +20,7 @@ namespace TaskManagerStart.Controllers
             return new JsonResult(new { Authorization = "Bearer " + responce.JwtToken });
         }
 
-        [HttpPost("verify")]
+        [HttpPost]
         public async Task<JsonResult> Verify(VerifyUserDTO verifyUserDTO)
         {
             var verifyUserCommand = mapper.Map<VerifyUserCommand>(verifyUserDTO);

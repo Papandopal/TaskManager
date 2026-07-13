@@ -4,15 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Enums;
-using MediatR;
-using UseCase.ProjectServices.MediatR.Responces;
 
-namespace UseCase.ProjectServices.MediatR.Commands
+namespace UseCase.ProjectServices.Services.DTOs
 {
-    public class UpdateProjectCommand : IRequest<UpdateProjectResponce>
+    public class UpdateProjectDTO
     {
         public Guid Id { get; init; }
-        public Guid UpdaterId { get; set; }
+        public Guid UpdaterId { get; init; }
         public string? Name { get; set; } 
         public ProjectStatus? ProjectStatus { get; set; }
     }

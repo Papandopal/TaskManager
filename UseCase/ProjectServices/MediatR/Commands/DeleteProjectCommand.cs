@@ -11,5 +11,6 @@ namespace UseCase.ProjectServices.MediatR.Commands
     public class DeleteProjectCommand : IRequest<DeleteProjectResponce>
     {
         public Guid Id { get; set; }
+        public Guid DeleterId { get; set; }
     }
 }

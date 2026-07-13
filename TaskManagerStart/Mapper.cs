@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
-using TaskManagerStart.DTOs;
+using TaskManagerStart.DTOs.Project;
+using TaskManagerStart.DTOs.User;
 using UseCase.ProjectServices.MediatR.Commands;
 using UseCase.ProjectServices.Services.DTOs;
 using UseCase.UserServices.MediatR.Commands;
@@ -22,24 +23,31 @@ namespace TaskManagerStart
             CreateMap<VerifyUserDTO, VerifyUserCommand>();
             CreateMap<VerifyUserCommand, VerifyPasswordDTO>();
 
+            CreateMap<CreateProjectDTO, CreateProjectCommand>();
             CreateMap<CreateProjectCommand, CreateProjectUseCaseDTO>();
             CreateMap<CreateProjectUseCaseDTO, Project>();
 
-            CreateMap<FindProjectsInfoCommand, FindProjectsDTO>();
+            CreateMap<DeleteProjectDTO, DeleteProjectCommand>();  
+            CreateMap<DeleteProjectCommand, DeleteProjectUseCaseDTO>();
+
+            CreateMap<FindProjectsDTO, FindProjectsInfoCommand>();
+            CreateMap<FindProjectsInfoCommand, FindProjectsUseCaseDTO>();
+
+            CreateMap<FilterProjectsDTO, FilterProjectsCommand>();
+            CreateMap<FilterProjectsCommand, FilterProjectsUseCaseDTO>();
+
+            CreateMap<SortProjectsDTO, SortProjectsInfoCommand>();
+            CreateMap<SortProjectsInfoCommand, SortProjectsUseCaseDTO>();
+
+            CreateMap<UpdateProjectCommand, UpdateProjectDTO>();
+            CreateMap<UpdateProjectDTO, Project>().ForAllMembers(opt =>
+            {
+                opt.Condition((src, desc, srcMember) => srcMember is not null);
+            });
 
             CreateMap<Project, ShortProjectInfoDTO>();
 
             CreateMap<Project, LongProjectInfoDTO>();
-
-            CreateMap<GetProjectsInfoByFilterCommand, FilterProjectsDTO>();
-
-            CreateMap<SortProjectsInfoCommand, SortProjectsDTO>();
-
-            CreateMap<UpdateProjectCommand, UpdateProjectUseCaseDTO>();
-            CreateMap<UpdateProjectUseCaseDTO, Project>().ForAllMembers(opt =>
-            {
-                opt.Condition((src, desc, srcMember) => srcMember is not null);
-            });
         }
     }
 }

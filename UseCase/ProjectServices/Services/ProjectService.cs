@@ -22,24 +22,30 @@ namespace UseCase.ProjectServices.Services
             unitOfWork.Commit();
         }
 
-        public void Update(UpdateProjectUseCaseDTO updateProjectDTO)
+        public void Update(UpdateProjectUseCaseDTO updateProjectUseCaseDTO)
         {
             unitOfWork.StartTransaction();
 
-            var project = unitOfWork.ProjectRepository.GetById(updateProjectDTO.Id);
+            var project = unitOfWork.ProjectRepository.GetById(updateProjectUseCaseDTO.Id);
 
-            mapper.Map(updateProjectDTO, project);
+            if (project.OwnerId != updateProjectUseCaseDTO.UpdaterId) throw new Exception("Access denied");
+
+            mapper.Map(updateProjectUseCaseDTO, project);
 
             unitOfWork.ProjectRepository.Update(project);
 
             unitOfWork.Commit();
         }
 
-        public void Delete(Guid id)
+        public void Delete(DeleteProjectUseCaseDTO deleteProjectUseCaseDTO)
         {
             unitOfWork.StartTransaction();
 
-            unitOfWork.ProjectRepository.Delete(id);
+            var project = unitOfWork.ProjectRepository.GetById(deleteProjectUseCaseDTO.Id);
+
+            if (project.OwnerId != deleteProjectUseCaseDTO.DeleterId) throw new Exception("Access denied");
+
+            unitOfWork.ProjectRepository.Delete(deleteProjectUseCaseDTO.Id);
 
             unitOfWork.Commit();
         }

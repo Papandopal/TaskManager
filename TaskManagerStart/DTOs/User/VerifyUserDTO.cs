@@ -1,4 +1,4 @@
-﻿namespace TaskManagerStart.DTOs
+﻿namespace TaskManagerStart.DTOs.User
 {
     public class VerifyUserDTO
     {

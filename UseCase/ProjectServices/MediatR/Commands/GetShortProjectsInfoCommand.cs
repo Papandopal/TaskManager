@@ -10,6 +10,5 @@ namespace UseCase.ProjectServices.MediatR.Commands
 {
     public class GetShortProjectsInfoCommand : IRequest<GetShortProjectsInfoResponce>
     {
-        public Guid Id { get; init; }
     }
 }

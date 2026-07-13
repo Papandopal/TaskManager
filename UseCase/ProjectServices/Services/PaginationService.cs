@@ -71,7 +71,7 @@ namespace UseCase.ProjectServices.Services
             return items;
         }
 
-        public IEnumerable<T> Find(FindProjectsDTO findProjectsDTO)
+        public IEnumerable<T> Find(FindProjectsUseCaseDTO findProjectsDTO)
         {
             if (findProjectsDTO.FilterFlags.HasFlag(FindFlags.CaseInsensitive))
                 items = FindCaseInsensetive(findProjectsDTO.PropertyName, findProjectsDTO.PropertyValue);
@@ -82,7 +82,7 @@ namespace UseCase.ProjectServices.Services
             return items;
         }
 
-        public IEnumerable<T> Filter(FilterProjectsDTO filterProjectsDTO)
+        public IEnumerable<T> Filter(FilterProjectsUseCaseDTO filterProjectsDTO)
         {
             var item = items.First();
             ParameterExpression? parameter = null;
@@ -147,7 +147,7 @@ namespace UseCase.ProjectServices.Services
             return this;
         }
 
-        public PaginationService<T> Sort(SortProjectsDTO sortProjectsDTO)
+        public PaginationService<T> Sort(SortProjectsUseCaseDTO sortProjectsDTO)
         {
 
             ParameterExpression? parameter = null;

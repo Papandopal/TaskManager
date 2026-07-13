@@ -21,7 +21,7 @@ namespace UseCase.ProjectServices.MediatR.Handlers
         {
             IEnumerable<Project> projects = projectService.GetAll();
             paginationService.SetItems(projects);
-            projects = paginationService.Find(mapper.Map<FindProjectsDTO>(request));
+            projects = paginationService.Find(mapper.Map<FindProjectsUseCaseDTO>(request));
             return Task.FromResult(new FindProjectsInfoResponce { Projects = mapper.Map<IEnumerable<ShortProjectInfoDTO>>(projects)});
         }
     }
