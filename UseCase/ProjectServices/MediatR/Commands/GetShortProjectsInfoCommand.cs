@@ -10,7 +10,6 @@ namespace UseCase.ProjectServices.MediatR.Commands
 {
     public class GetShortProjectsInfoCommand : IRequest<GetShortProjectsInfoResponce>
     {
-        public string Name { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
+        public Guid Id { get; init; }
     }
 }

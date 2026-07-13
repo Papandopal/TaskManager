@@ -25,7 +25,12 @@ namespace UseCase.ProjectServices.Services
         public void Update(UpdateProjectUseCaseDTO updateProjectDTO)
         {
             unitOfWork.StartTransaction();
+
             var project = unitOfWork.ProjectRepository.GetById(updateProjectDTO.Id);
+
+            mapper.Map(updateProjectDTO, project);
+
+            unitOfWork.ProjectRepository.Update(project);
 
             unitOfWork.Commit();
         }

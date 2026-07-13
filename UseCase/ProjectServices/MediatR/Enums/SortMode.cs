@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UseCase.ProjectServices.Services.DTOs
+namespace UseCase.ProjectServices.MediatR.Enums
 {
-    public class ProjectInfoDTO
+    public enum SortMode
     {
+        Ascending, Descending
     }
 }

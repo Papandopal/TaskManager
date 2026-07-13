@@ -8,5 +8,6 @@ namespace UseCase.ProjectServices.MediatR.Responces
 {
     public class UpdateProjectResponce
     {
+
     }
 }

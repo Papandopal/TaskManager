@@ -11,6 +11,5 @@ namespace UseCase.ProjectServices.MediatR.Commands
     public class GetLongProjectInfoCommand : IRequest<GetLongProjectInfoResponce>
     {
         public Guid Id { get; init; }
-        public string Name { get; init; } = string.Empty;
     }
 }

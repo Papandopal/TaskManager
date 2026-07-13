@@ -5,6 +5,8 @@ using Infrastructure.Database;
 using UseCase.UserServices;
 using UseCase.Database;
 using UseCase.UserServices.Services;
+using Domain.Entities;
+using UseCase.ProjectServices.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +48,9 @@ builder.Services.AddMediatR(opt =>
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<JwtService>();
 builder.Services.AddTransient<CryptService>();
+
+builder.Services.AddTransient<ProjectService>();
+builder.Services.AddTransient(typeof(PaginationService<>));
 
 builder.Services.AddSingleton<AuthentificationOptions>();
 builder.Services.AddSingleton<IUnitOfWork, LocalUnitOfWork>();

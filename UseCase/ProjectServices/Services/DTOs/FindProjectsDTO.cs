@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MediatR;
 using UseCase.ProjectServices.MediatR.Enums;
-using UseCase.ProjectServices.MediatR.Responces;
 
-namespace UseCase.ProjectServices.MediatR.Commands
+namespace UseCase.ProjectServices.Services.DTOs
 {
-    public class SortProjectsInfoCommand : IRequest<SortProjectsInfoResponce>
+    public class FindProjectsDTO
     {
         public string PropertyName { get; set; } = string.Empty;
-        public SortMode SortMode { get; set; }
+        public string PropertyValue { get; set; } = string.Empty;
+        public FindFlags FilterFlags { get; set; }
     }
 }
