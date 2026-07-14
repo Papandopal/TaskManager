@@ -17,6 +17,8 @@ namespace UseCase.ProjectServices.Services
             var project = mapper.Map<Project>(createProjectUseCaseDTO);
             unitOfWork.StartTransaction();
 
+            Console.WriteLine(project.OwnerId);
+
             unitOfWork.ProjectRepository.Add(project);
 
             unitOfWork.Commit();

@@ -10,6 +10,6 @@ namespace UseCase.ProjectServices.MediatR.Enums
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum FilterComparer
     {
-        Equal, NotEqual, GreateEqual, GreateNotEqual, LessEqual, LessNotEqual
+        Equal, NotEqual, Greate, GreateEqual, Less, LessEqual
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using UseCase.Database.Repositories;
 
 namespace Infrastructure.Database.Repositories
 {
-    public class LocalTaskRepository : IProjectTaskRepository
+    public class TaskRepository(DbContext dbContext) : IProjectTaskRepository
     {
-        private List<ProjectTask> tasks = new();
+        private DbSet<ProjectTask> tasks = dbContext.Set<ProjectTask>();
         public void Add(ProjectTask entity)
         {
             tasks.Add(entity);

@@ -131,9 +131,9 @@ namespace TaskManagerStart.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<JsonResult> GetSortedProjects(GetPageDTO getPageDTO)
+        public async Task<JsonResult> Sort(SortProjectsDTO sortProjectsDTO)
         {
-            var command = mapper.Map<GetPageProjectsInfoCommand>(getPageDTO);
+            var command = mapper.Map<SortProjectsInfoCommand>(sortProjectsDTO);
 
             var responce = await mediator.Send(command);
 

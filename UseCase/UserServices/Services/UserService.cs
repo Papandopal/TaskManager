@@ -33,6 +33,8 @@ namespace UseCase.UserServices.Services
 
             var user = unitOfWork.UserRepository.GetByEmail(email);
 
+            Console.WriteLine(user.Id);
+
             unitOfWork.Commit();
 
             return user;

@@ -14,9 +14,9 @@ using UseCase.ProjectServices.Services.DTOs;
 namespace UseCase.ProjectServices.MediatR.Handlers
 {
     public class GetProjectsInfoByFilterCommandHandler(ProjectService projectService, PaginationService<Project> paginationService,
-        IMapper mapper) : IRequestHandler<FIlterProjectsCommand, GetProjectsInfoByFilterResponce>
+        IMapper mapper) : IRequestHandler<FilterProjectsCommand, GetProjectsInfoByFilterResponce>
     {
-        public Task<GetProjectsInfoByFilterResponce> Handle(FIlterProjectsCommand request, CancellationToken cancellationToken)
+        public Task<GetProjectsInfoByFilterResponce> Handle(FilterProjectsCommand request, CancellationToken cancellationToken)
         {
             var projects = projectService.GetAll();
 

@@ -1,5 +1,7 @@
 ﻿using System.Buffers;
+using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using FuzzySharp;
 using UseCase.ProjectServices.MediatR.Enums;
@@ -18,40 +20,47 @@ namespace UseCase.ProjectServices.Services
             this.items = items;
         }
 
-        public PaginationService<T> GetPage(int page, int size = 5)
+        public PaginationService<T> GetPage(int page, int size)
         {
-            items = items.Skip((page - 1) * size);
+            if ((page - 1) * size >= items.Count()) throw new Exception("invalide page number");
+            items = items.Skip((page - 1) * size).Take(size < items.Count() ? size : items.Count());
             return this;
         }
 
-        private IEnumerable<T> FindFuzzySearch(string PropName, string PropValue)
+        private IEnumerable<T> FindFuzzySearch(string propName, string propValue)
         {
             List<string> properties = new();
-
+            PropertyInfo property = typeof(T).GetProperty(propName) ?? throw new Exception("property not found");
             foreach (var item in items)
             {
-                if (item is null) continue;
-                foreach (var property in item.GetType().GetProperties())
-                {
-                    if (property.Name == PropName && property.CanRead) properties.Add(property.GetValue(property).ToString());
-                }
+                if ((property.GetValue(item)?.ToString() ?? null) is not null) properties.Add(property.GetValue(item).ToString());
             }
 
-            var resultrs = Process.ExtractAll(PropValue, properties, cutoff: 70) //procent of similarity
+            var resultrs = Process.ExtractAll(propValue, properties, cutoff: 70) //procent of similarity
                                   .Select(x => x.Value).ToList();
 
             List<T> new_items = new List<T>();
 
             foreach (var item in items)
             {
-                if (item is null) continue;
-                foreach (var property in item.GetType().GetProperties())
+                if (resultrs.Contains(property.GetValue(item).ToString()))
                 {
-                    if (property.Name == PropName && resultrs.Contains(property.GetValue(property).ToString()))
-                    {
-                        new_items.Add(item);
-                    }
+                    new_items.Add(item);
                 }
+            }
+
+            return new_items;
+        }
+
+        private IEnumerable<T> FindWithoutFlags(string propName, string propValue)
+        {
+            List<T> new_items = new();
+            PropertyInfo property = typeof(T).GetProperty(propName) ?? throw new Exception("property not found");
+            foreach (T item in items)
+            {
+                if ((property.GetValue(item).ToString() ?? null) is null) continue;
+
+                if (property.GetValue(item)?.ToString() == propValue) new_items.Add(item);
             }
 
             return new_items;
@@ -59,25 +68,54 @@ namespace UseCase.ProjectServices.Services
 
         private IEnumerable<T> FindCaseInsensetive(string propName, string propValue)
         {
-            foreach (var item in items)
+            List<T> new_items = new();
+            PropertyInfo property = typeof(T).GetProperty(propName) ?? throw new Exception("property not found");
+            foreach (T item in items)
             {
-                if (item is null) continue;
-                foreach (var property in item.GetType().GetProperties())
-                {
-                    if (property.Name == propName) property.SetValue(item, propValue.ToLower());
-                }
+                if ((property.GetValue(item).ToString() ?? null) is null) continue;
+
+                if (property.GetValue(item)?.ToString()?.ToLower() == propValue.ToLower()) new_items.Add(item);
             }
 
-            return items;
+            return new_items;
+        }
+
+        private IEnumerable<T> FindCaseInsensetiveUseFuzzySearch(string propName, string propValue)
+        {
+            PropertyInfo property = typeof(T).GetProperty(propName) ?? throw new Exception("property not found");
+            if (!property.CanWrite) throw new Exception("property cant sets");
+            foreach (T item in items)
+            {
+                if ((property.GetValue(item).ToString() ?? null) is null) continue;
+
+                var converter = TypeDescriptor.GetConverter(property.PropertyType);
+
+                if (converter is null || !converter.CanConvertFrom(typeof(string)))
+                    throw new Exception($"cant convert string to type of property {propName}");
+
+                var value = converter.ConvertFrom(property.GetValue(item)?.ToString()?.ToLower());
+
+                property.SetValue(item, value);
+            }
+
+            IEnumerable<T> new_items = FindFuzzySearch(propName, propValue);
+
+            return new_items;
         }
 
         public IEnumerable<T> Find(FindProjectsUseCaseDTO findProjectsDTO)
         {
-            if (findProjectsDTO.FilterFlags.HasFlag(FindFlags.CaseInsensitive))
+            if (findProjectsDTO.FindFlags.HasFlag(FindFlags.CaseInsensitive | FindFlags.UseFuzzySearch))
+                items = FindCaseInsensetiveUseFuzzySearch(findProjectsDTO.PropertyName, findProjectsDTO.PropertyValue);
+
+            else if (findProjectsDTO.FindFlags.HasFlag(FindFlags.CaseInsensitive))
                 items = FindCaseInsensetive(findProjectsDTO.PropertyName, findProjectsDTO.PropertyValue);
 
-            if (findProjectsDTO.FilterFlags.HasFlag(FindFlags.UseFuzzySearch))
+            else if (findProjectsDTO.FindFlags.HasFlag(FindFlags.UseFuzzySearch))
                 items = FindFuzzySearch(findProjectsDTO.PropertyName, findProjectsDTO.PropertyValue);
+
+            else
+                items = FindWithoutFlags(findProjectsDTO.PropertyName, findProjectsDTO.PropertyValue);
 
             return items;
         }
@@ -89,20 +127,21 @@ namespace UseCase.ProjectServices.Services
             MemberExpression? member = null;
             ConstantExpression? searchValue = null;
 
-            if (item is null) throw new Exception($"collection before \"{filterProjectsDTO.FilterComparer} {filterProjectsDTO.PropertyName}\" is empty");
-            foreach (var property in item.GetType().GetProperties())
-            {
-                if (property.Name == filterProjectsDTO.PropertyName)
-                {
-                    parameter = ParameterExpression.Parameter(typeof(T), typeof(T).Name);
-                    member = MemberExpression.Property(parameter, property.Name);
-                    searchValue = Expression.Constant(filterProjectsDTO.PropertyValue, property.PropertyType);
-                    break;
-                }
-            }
+            if (item is null)
+                throw new Exception($"collection before \"{filterProjectsDTO.FilterComparer} {filterProjectsDTO.PropertyName}\" is empty");
 
-            if (parameter is null || searchValue is null || member is null)
-                throw new Exception($"property {filterProjectsDTO.PropertyName} not found in {typeof(T).Name}");
+            PropertyInfo property = typeof(T).GetProperty(filterProjectsDTO.PropertyName);
+
+            var converter = TypeDescriptor.GetConverter(property.PropertyType);
+
+            if (converter is null || !converter.CanConvertFrom(typeof(string)))
+                throw new Exception($"cannot convert string to {filterProjectsDTO.PropertyName}");
+
+            parameter = ParameterExpression.Parameter(typeof(T), typeof(T).Name);
+            member = MemberExpression.Property(parameter, property.Name);
+
+            var convertedObj = converter.ConvertFrom(filterProjectsDTO.PropertyValue);
+            searchValue = Expression.Constant(convertedObj, property.PropertyType);
 
             BinaryExpression binaryExpression;
 
@@ -114,17 +153,17 @@ namespace UseCase.ProjectServices.Services
                 case FilterComparer.NotEqual:
                     binaryExpression = Expression.NotEqual(member, searchValue);
                     break;
+                case FilterComparer.Greate:
+                    binaryExpression = Expression.GreaterThan(member, searchValue);
+                    break;
                 case FilterComparer.GreateEqual:
                     binaryExpression = Expression.GreaterThanOrEqual(member, searchValue);
                     break;
-                case FilterComparer.GreateNotEqual:
-                    binaryExpression = Expression.GreaterThan(member, searchValue);
+                case FilterComparer.Less:
+                    binaryExpression = Expression.LessThan(member, searchValue);
                     break;
                 case FilterComparer.LessEqual:
                     binaryExpression = Expression.LessThanOrEqual(member, searchValue);
-                    break;
-                case FilterComparer.LessNotEqual:
-                    binaryExpression = Expression.LessThan(member, searchValue);
                     break;
                 default:
                     throw new Exception("unknow comparer");
@@ -150,26 +189,22 @@ namespace UseCase.ProjectServices.Services
         public PaginationService<T> Sort(SortProjectsUseCaseDTO sortProjectsDTO)
         {
 
-            ParameterExpression? parameter = null;
-            MemberExpression? member = null;
+            Expression parameter = null;
+            Expression member = null;
 
             if (items.Count() == 0) throw new Exception("collection is empty");
-            foreach (var property in items.First().GetType().GetProperties())
+            PropertyInfo property = typeof(T).GetProperty(sortProjectsDTO.PropertyName);
+            parameter = Expression.Parameter(typeof(T), typeof(T).Name);
+            member = Expression.Property(parameter, property.Name);
+
+            if (property.PropertyType.IsValueType)
             {
-                if (property.Name == sortProjectsDTO.PropertyName)
-                {
-                    parameter = ParameterExpression.Parameter(typeof(T), typeof(T).Name);
-                    member = MemberExpression.Property(parameter, property.Name);
-                    break;
-                }
+                member = Expression.Convert(member, typeof(object));
             }
 
-            if (parameter is null || member is null)
-                throw new Exception($"property {sortProjectsDTO.PropertyName} not found in {typeof(T).Name}");
+            Expression<Func<T, object?>> expression = Expression.Lambda<Func<T, object?>>(member, (ParameterExpression)parameter);
 
-            Expression<Func<T, object?>> expression = Expression.Lambda<Func<T, object?>>(member, parameter);
-
-            if(sortProjectsDTO.SortMode == SortMode.Ascending) return SortBy(expression);
+            if (sortProjectsDTO.SortMode == SortMode.Ascending) return SortBy(expression);
             else return DescSortBy(expression);
         }
 

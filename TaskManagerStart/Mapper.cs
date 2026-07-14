@@ -36,11 +36,14 @@ namespace TaskManagerStart
             CreateMap<FilterProjectsDTO, FilterProjectsCommand>();
             CreateMap<FilterProjectsCommand, FilterProjectsUseCaseDTO>();
 
+            CreateMap<GetPageDTO, GetPageProjectsInfoCommand>();
+
             CreateMap<SortProjectsDTO, SortProjectsInfoCommand>();
             CreateMap<SortProjectsInfoCommand, SortProjectsUseCaseDTO>();
 
-            CreateMap<UpdateProjectCommand, UpdateProjectDTO>();
-            CreateMap<UpdateProjectDTO, Project>().ForAllMembers(opt =>
+            CreateMap<UpdateProjectDTO, UpdateProjectCommand>();
+            CreateMap<UpdateProjectCommand, UpdateProjectUseCaseDTO>();
+            CreateMap<UpdateProjectUseCaseDTO, Project>().ForAllMembers(opt =>
             {
                 opt.Condition((src, desc, srcMember) => srcMember is not null);
             });

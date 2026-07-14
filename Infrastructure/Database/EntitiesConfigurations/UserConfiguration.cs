@@ -14,8 +14,13 @@ namespace Infrastructure.Database.EntitiesConfigurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            builder.HasOne<Project>().WithMany().HasPrincipalKey(project => project.OwnerId).HasForeignKey(x => x.Id);
+            builder.Property(x => x.Id)
+                   .HasValueGenerator<Microsoft.EntityFrameworkCore.ValueGeneration.SequentialGuidValueGenerator>();
+
+            builder.HasMany<Project>()
+                   .WithOne()
+                   .HasForeignKey(p => p.OwnerId);
+                   
 
         }
     }

@@ -14,6 +14,6 @@ namespace UseCase.ProjectServices.MediatR.Commands
     {
         public string PropertyName { get; set; } = string.Empty;
         public string PropertyValue { get; set; } = string.Empty;
-        public FindFlags FilterFlags { get; set; }
+        public FindFlags FindFlags { get; set; }
     }
 }

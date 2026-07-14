@@ -14,6 +14,6 @@ namespace UseCase.ProjectServices.MediatR.Commands
         public Guid Id { get; init; }
         public Guid UpdaterId { get; set; }
         public string? Name { get; set; } 
-        public ProjectStatus? ProjectStatus { get; set; }
+        public ProjectStatus? Status { get; set; }
     }
 }

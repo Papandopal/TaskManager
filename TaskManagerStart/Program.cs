@@ -7,6 +7,7 @@ using UseCase.Database;
 using UseCase.UserServices.Services;
 using Domain.Entities;
 using UseCase.ProjectServices.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,11 @@ builder.Services.AddMediatR(opt =>
     opt.RegisterServicesFromAssembly(typeof(UseCase.Database.IUnitOfWork).Assembly);
 });
 
+builder.Services.AddDbContext<AppDbContext>(opt =>
+{
+    opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+});
+
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<JwtService>();
 builder.Services.AddTransient<CryptService>();
@@ -53,7 +59,7 @@ builder.Services.AddTransient<ProjectService>();
 builder.Services.AddTransient(typeof(PaginationService<>));
 
 builder.Services.AddSingleton<AuthentificationOptions>();
-builder.Services.AddSingleton<IUnitOfWork, LocalUnitOfWork>();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

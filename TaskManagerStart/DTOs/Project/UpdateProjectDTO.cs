@@ -12,6 +12,6 @@ namespace UseCase.ProjectServices.Services.DTOs
         public Guid Id { get; init; }
         public Guid UpdaterId { get; init; }
         public string? Name { get; set; } 
-        public ProjectStatus? ProjectStatus { get; set; }
+        public ProjectStatus? Status { get; set; }
     }
 }

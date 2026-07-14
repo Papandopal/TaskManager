@@ -9,12 +9,12 @@ namespace Infrastructure.Database.EntitiesConfigurations
         public void Configure(EntityTypeBuilder<Project> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            builder.Property(x => x.Id)
+                   .HasValueGenerator<Microsoft.EntityFrameworkCore.ValueGeneration.SequentialGuidValueGenerator>();
 
-            builder.HasOne<ProjectTask>()
-                   .WithMany()
-                   .HasPrincipalKey(task=>task.ProjectId)
-                   .HasForeignKey(x=>x.Id)
+            builder.HasMany<ProjectTask>()
+                   .WithOne()
+                   .HasForeignKey(t=>t.ProjectId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }

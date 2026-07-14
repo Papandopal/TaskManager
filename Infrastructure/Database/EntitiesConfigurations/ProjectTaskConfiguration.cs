@@ -15,6 +15,8 @@ namespace Infrastructure.Database.EntitiesConfigurations
         public void Configure(EntityTypeBuilder<ProjectTask> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(x=>x.Id)
+                   .HasValueGenerator<Microsoft.EntityFrameworkCore.ValueGeneration.SequentialGuidValueGenerator>();
         }
     }
 }

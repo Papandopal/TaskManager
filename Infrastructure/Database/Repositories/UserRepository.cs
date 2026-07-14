@@ -1,11 +1,12 @@
 ﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using UseCase.Database.Repositories;
 
 namespace Infrastructure.Database.Repositories
 {
-    public class LocalUserRepository : IUserRepository
+    public class UserRepository(DbContext dbContext) : IUserRepository
     {
-        private List<User> users = new();
+        private DbSet<User> users = dbContext.Set<User>();
         public void Add(User entity)
         {
             users.Add(entity);

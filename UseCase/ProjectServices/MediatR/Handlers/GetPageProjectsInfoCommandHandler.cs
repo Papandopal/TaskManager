@@ -22,7 +22,7 @@ namespace UseCase.ProjectServices.MediatR.Handlers
 
             paginationService.SetItems(projects);
 
-            var findedProjects = mapper.Map<IEnumerable<ShortProjectInfoDTO>>(paginationService.GetPage(request.PageNumber, request.PageSize));
+            var findedProjects = mapper.Map<IEnumerable<ShortProjectInfoDTO>>(paginationService.GetPage(request.Number, request.Size).ToEnumerable());
 
             return Task.FromResult(new GetPageProjectsInfoResponce { Projects =  findedProjects });
         }
