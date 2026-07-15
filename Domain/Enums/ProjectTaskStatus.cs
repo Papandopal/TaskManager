@@ -5,11 +5,11 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace UseCase.ProjectServices.MediatR.Enums
+namespace Domain.Enums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum FilterComparer
+    public enum ProjectTaskStatus
     {
-        Equal, NotEqual, Greate, GreateEqual, Less, LessEqual
+        ToDo, InProgress, Done
     }
 }

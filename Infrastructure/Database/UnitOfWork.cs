@@ -14,7 +14,7 @@ namespace Infrastructure.Database
 
         public IProjectRepository ProjectRepository { get; } = new ProjectRepository(dbContext);
 
-        public IProjectTaskRepository TaskRepository { get; } = new TaskRepository(dbContext);
+        public IProjectTaskRepository ProjectTaskRepository { get; } = new ProjectTaskRepository(dbContext);
         public void StartTransaction()
         {
             if (transaction is not null) Rollback();

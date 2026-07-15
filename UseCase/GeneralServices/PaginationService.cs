@@ -4,8 +4,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using FuzzySharp;
-using UseCase.ProjectServices.MediatR.Enums;
-using UseCase.ProjectServices.Services.DTOs;
+using UseCase.GeneralServices.DTOs;
+using UseCase.GeneralServices.Enums;
 
 namespace UseCase.GeneralServices
 {
@@ -103,24 +103,24 @@ namespace UseCase.GeneralServices
             return new_items;
         }
 
-        public IEnumerable<T> Find(FindProjectsUseCaseDTO findProjectsDTO)
+        public PaginationService<T> Find(FindItemsDTO findItemsDTO)
         {
-            if (findProjectsDTO.FindFlags.HasFlag(FindFlags.CaseInsensitive | FindFlags.UseFuzzySearch))
-                items = FindCaseInsensetiveUseFuzzySearch(findProjectsDTO.PropertyName, findProjectsDTO.PropertyValue);
+            if (findItemsDTO.FindFlags.HasFlag(FindFlags.CaseInsensitive | FindFlags.UseFuzzySearch))
+                items = FindCaseInsensetiveUseFuzzySearch(findItemsDTO.PropertyName, findItemsDTO.PropertyValue);
 
-            else if (findProjectsDTO.FindFlags.HasFlag(FindFlags.CaseInsensitive))
-                items = FindCaseInsensetive(findProjectsDTO.PropertyName, findProjectsDTO.PropertyValue);
+            else if (findItemsDTO.FindFlags.HasFlag(FindFlags.CaseInsensitive))
+                items = FindCaseInsensetive(findItemsDTO.PropertyName, findItemsDTO.PropertyValue);
 
-            else if (findProjectsDTO.FindFlags.HasFlag(FindFlags.UseFuzzySearch))
-                items = FindFuzzySearch(findProjectsDTO.PropertyName, findProjectsDTO.PropertyValue);
+            else if (findItemsDTO.FindFlags.HasFlag(FindFlags.UseFuzzySearch))
+                items = FindFuzzySearch(findItemsDTO.PropertyName, findItemsDTO.PropertyValue);
 
             else
-                items = FindWithoutFlags(findProjectsDTO.PropertyName, findProjectsDTO.PropertyValue);
+                items = FindWithoutFlags(findItemsDTO.PropertyName, findItemsDTO.PropertyValue);
 
-            return items;
+            return this;
         }
 
-        public IEnumerable<T> Filter(FilterProjectsUseCaseDTO filterProjectsDTO)
+        public PaginationService<T> Filter(FilterItemsDTO filterItemsDTO)
         {
             var item = items.First();
             ParameterExpression? parameter = null;
@@ -128,24 +128,24 @@ namespace UseCase.GeneralServices
             ConstantExpression? searchValue = null;
 
             if (item is null)
-                throw new Exception($"collection before \"{filterProjectsDTO.FilterComparer} {filterProjectsDTO.PropertyName}\" is empty");
+                throw new Exception($"collection before \"{filterItemsDTO.FilterComparer} {filterItemsDTO.PropertyName}\" is empty");
 
-            PropertyInfo property = typeof(T).GetProperty(filterProjectsDTO.PropertyName);
+            PropertyInfo property = typeof(T).GetProperty(filterItemsDTO.PropertyName);
 
             var converter = TypeDescriptor.GetConverter(property.PropertyType);
 
             if (converter is null || !converter.CanConvertFrom(typeof(string)))
-                throw new Exception($"cannot convert string to {filterProjectsDTO.PropertyName}");
+                throw new Exception($"cannot convert string to {filterItemsDTO.PropertyName}");
 
             parameter = Expression.Parameter(typeof(T), typeof(T).Name);
             member = Expression.Property(parameter, property.Name);
 
-            var convertedObj = converter.ConvertFrom(filterProjectsDTO.PropertyValue);
+            var convertedObj = converter.ConvertFrom(filterItemsDTO.PropertyValue);
             searchValue = Expression.Constant(convertedObj, property.PropertyType);
 
             BinaryExpression binaryExpression;
 
-            switch (filterProjectsDTO.FilterComparer)
+            switch (filterItemsDTO.FilterComparer)
             {
                 case FilterComparer.Equal:
                     binaryExpression = Expression.Equal(member, searchValue);
@@ -171,7 +171,8 @@ namespace UseCase.GeneralServices
 
             Expression<Func<T, bool>> lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
 
-            return items.Where(lambda.Compile());
+            items = items.Where(lambda.Compile());
+            return this;
         }
 
         private PaginationService<T> SortBy(Expression<Func<T, object?>> keyExpression)
@@ -186,14 +187,14 @@ namespace UseCase.GeneralServices
             return this;
         }
 
-        public PaginationService<T> Sort(SortProjectsUseCaseDTO sortProjectsDTO)
+        public PaginationService<T> Sort(SortItemsDTO sortItemsDTO)
         {
 
             Expression parameter = null;
             Expression member = null;
 
             if (items.Count() == 0) throw new Exception("collection is empty");
-            PropertyInfo property = typeof(T).GetProperty(sortProjectsDTO.PropertyName);
+            PropertyInfo property = typeof(T).GetProperty(sortItemsDTO.PropertyName);
             parameter = Expression.Parameter(typeof(T), typeof(T).Name);
             member = Expression.Property(parameter, property.Name);
 
@@ -204,7 +205,7 @@ namespace UseCase.GeneralServices
 
             Expression<Func<T, object?>> expression = Expression.Lambda<Func<T, object?>>(member, (ParameterExpression)parameter);
 
-            if (sortProjectsDTO.SortMode == SortMode.Ascending) return SortBy(expression);
+            if (sortItemsDTO.SortMode == SortMode.Ascending) return SortBy(expression);
             else return DescSortBy(expression);
         }
 

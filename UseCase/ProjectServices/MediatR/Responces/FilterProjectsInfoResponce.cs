@@ -7,7 +7,7 @@ using UseCase.ProjectServices.Services.DTOs;
 
 namespace UseCase.ProjectServices.MediatR.Responces
 {
-    public class GetProjectsInfoByFilterResponce
+    public class FilterProjectsInfoResponce
     {
         public IEnumerable<ShortProjectInfoDTO> Projects { get; set; } = Enumerable.Empty<ShortProjectInfoDTO>();
     }

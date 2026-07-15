@@ -7,6 +7,7 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using UseCase.GeneralServices;
+using UseCase.GeneralServices.DTOs;
 using UseCase.ProjectServices.MediatR.Commands;
 using UseCase.ProjectServices.MediatR.Responces;
 using UseCase.ProjectServices.Services;
@@ -14,19 +15,19 @@ using UseCase.ProjectServices.Services.DTOs;
 
 namespace UseCase.ProjectServices.MediatR.Handlers
 {
-    public class GetProjectsInfoByFilterCommandHandler(ProjectService projectService, PaginationService<Project> paginationService,
-        IMapper mapper) : IRequestHandler<FilterProjectsCommand, GetProjectsInfoByFilterResponce>
+    public class FilterProjectsInfoCommandHandler(ProjectService projectService, PaginationService<Project> paginationService,
+        IMapper mapper) : IRequestHandler<FilterProjectsCommand, FilterProjectsInfoResponce>
     {
-        public Task<GetProjectsInfoByFilterResponce> Handle(FilterProjectsCommand request, CancellationToken cancellationToken)
+        public Task<FilterProjectsInfoResponce> Handle(FilterProjectsCommand request, CancellationToken cancellationToken)
         {
             var projects = projectService.GetAll();
 
             paginationService.SetItems(projects);
 
             var filtered_projects = mapper.Map<IEnumerable<ShortProjectInfoDTO>>
-                (paginationService.Filter(mapper.Map<FilterProjectsUseCaseDTO>(request)));
+                (paginationService.Filter(mapper.Map<FilterItemsDTO>(request)).ToEnumerable());
 
-            return Task.FromResult(new GetProjectsInfoByFilterResponce { Projects = filtered_projects });
+            return Task.FromResult(new FilterProjectsInfoResponce { Projects = filtered_projects });
         }
     }
 }

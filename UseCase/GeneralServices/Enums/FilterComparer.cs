@@ -5,11 +5,11 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Domain.Enums
+namespace UseCase.GeneralServices.Enums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum TaskStatus
+    public enum FilterComparer
     {
-        ToDo, InProgress, Done
+        Equal, NotEqual, Greate, GreateEqual, Less, LessEqual
     }
 }

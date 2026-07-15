@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace UseCase.ProjectServices.MediatR.Enums
+namespace UseCase.GeneralServices.Enums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum SortMode

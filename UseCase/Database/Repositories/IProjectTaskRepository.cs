@@ -9,5 +9,6 @@ namespace UseCase.Database.Repositories
 {
     public interface IProjectTaskRepository : IRepository<ProjectTask>
     {
+        public IEnumerable<ProjectTask> GetByProjectId(Guid projectId);
     }
 }

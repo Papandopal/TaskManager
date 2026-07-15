@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UseCase.ProjectServices.MediatR.Enums;
+using UseCase.GeneralServices.Enums;
 
 namespace UseCase.ProjectServices.Services.DTOs
 {

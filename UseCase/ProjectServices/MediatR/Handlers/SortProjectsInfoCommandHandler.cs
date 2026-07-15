@@ -7,6 +7,7 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using UseCase.GeneralServices;
+using UseCase.GeneralServices.DTOs;
 using UseCase.ProjectServices.MediatR.Commands;
 using UseCase.ProjectServices.MediatR.Responces;
 using UseCase.ProjectServices.Services;
@@ -23,7 +24,7 @@ namespace UseCase.ProjectServices.MediatR.Handlers
 
             paginationService.SetItems(projects);
 
-            var sorted_projects = paginationService.Sort(mapper.Map<SortProjectsUseCaseDTO>(request)).ToEnumerable();
+            var sorted_projects = paginationService.Sort(mapper.Map<SortItemsDTO>(request)).ToEnumerable();
 
             return Task.FromResult(new SortProjectsInfoResponce { Projects = mapper.Map<IEnumerable<ShortProjectInfoDTO>>(sorted_projects) });
         }

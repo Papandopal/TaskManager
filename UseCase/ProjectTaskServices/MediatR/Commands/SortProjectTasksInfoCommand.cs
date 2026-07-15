@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using UseCase.GeneralServices.Enums;
-using UseCase.ProjectServices.MediatR.Responces;
+using UseCase.ProjectTaskServices.MediatR.Responces;
 
-namespace UseCase.ProjectServices.MediatR.Commands
+namespace UseCase.ProjectTaskServices.MediatR.Commands
 {
-    public class SortProjectsInfoCommand : IRequest<SortProjectsInfoResponce>
+    public class SortProjectTasksInfoCommand : IRequest<SortProjectTasksInfoResponce>
     {
         public string PropertyName { get; set; } = string.Empty;
         public SortMode SortMode { get; set; }

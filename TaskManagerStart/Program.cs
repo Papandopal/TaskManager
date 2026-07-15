@@ -5,10 +5,10 @@ using Infrastructure.Database;
 using UseCase.UserServices;
 using UseCase.Database;
 using UseCase.UserServices.Services;
-using Domain.Entities;
 using UseCase.ProjectServices.Services;
 using Microsoft.EntityFrameworkCore;
 using UseCase.GeneralServices;
+using UseCase.ProjectTaskServices.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +58,7 @@ builder.Services.AddTransient<CryptService>();
 
 builder.Services.AddTransient<ProjectService>();
 builder.Services.AddTransient(typeof(PaginationService<>));
+builder.Services.AddTransient<ProjectTaskService>();
 
 builder.Services.AddSingleton<AuthentificationOptions>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();

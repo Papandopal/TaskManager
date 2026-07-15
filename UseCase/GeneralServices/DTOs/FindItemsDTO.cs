@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using MediatR;
 using UseCase.GeneralServices.Enums;
-using UseCase.ProjectServices.MediatR.Responces;
 
-namespace UseCase.ProjectServices.MediatR.Commands
+namespace UseCase.GeneralServices.DTOs
 {
-    public class FindProjectsInfoCommand : IRequest<FindProjectsInfoResponce>
+    public class FindItemsDTO
     {
         public string PropertyName { get; set; } = string.Empty;
         public string PropertyValue { get; set; } = string.Empty;

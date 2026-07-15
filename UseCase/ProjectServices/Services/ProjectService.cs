@@ -45,7 +45,11 @@ namespace UseCase.ProjectServices.Services
 
             var project = unitOfWork.ProjectRepository.GetById(deleteProjectUseCaseDTO.Id);
 
-            if (project.OwnerId != deleteProjectUseCaseDTO.DeleterId) throw new Exception("Access denied");
+            if (project.OwnerId != deleteProjectUseCaseDTO.DeleterId)
+            {
+                unitOfWork.Rollback();
+                throw new Exception("Access denied");
+            }
 
             unitOfWork.ProjectRepository.Delete(deleteProjectUseCaseDTO.Id);
 

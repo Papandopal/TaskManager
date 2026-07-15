@@ -4,7 +4,7 @@ using UseCase.Database.Repositories;
 
 namespace Infrastructure.Database.Repositories
 {
-    public class TaskRepository(DbContext dbContext) : IProjectTaskRepository
+    public class ProjectTaskRepository(DbContext dbContext) : IProjectTaskRepository
     {
         private DbSet<ProjectTask> tasks = dbContext.Set<ProjectTask>();
         public void Add(ProjectTask entity)
@@ -29,6 +29,11 @@ namespace Infrastructure.Database.Repositories
             var task = tasks.FirstOrDefault(x => x.Id == id);
             if (task is null) throw new Exception("task not found");
             return task;
+        }
+
+        public IEnumerable<ProjectTask> GetByProjectId(Guid projectId)
+        {
+            return tasks.Where(x => x.ProjectId == projectId);
         }
 
         public bool IsExists(Guid id)

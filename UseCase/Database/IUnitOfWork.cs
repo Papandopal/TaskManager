@@ -11,7 +11,7 @@ namespace UseCase.Database
     {
         public IUserRepository UserRepository { get; }
         public IProjectRepository ProjectRepository { get; }
-        public IProjectTaskRepository TaskRepository { get; }
+        public IProjectTaskRepository ProjectTaskRepository { get; }
         public void StartTransaction();
         public void Commit();
         public void Rollback();

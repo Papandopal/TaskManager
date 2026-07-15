@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MediatR;
 using UseCase.GeneralServices.Enums;
-using UseCase.ProjectServices.MediatR.Responces;
+using UseCase.ProjectTaskServices.MediatR.Responces;
 
-namespace UseCase.ProjectServices.MediatR.Commands
+namespace UseCase.ProjectTaskServices.MediatR.Commands
 {
-    public class FindProjectsInfoCommand : IRequest<FindProjectsInfoResponce>
+    public class FilterProjectTasksInfoCommand :IRequest<FilterProjectTasksInfoResponce>
     {
         public string PropertyName { get; set; } = string.Empty;
         public string PropertyValue { get; set; } = string.Empty;
-        public FindFlags FindFlags { get; set; }
+        public FilterComparer FilterComparer { get; set; }
     }
 }
