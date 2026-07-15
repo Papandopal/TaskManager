@@ -2,7 +2,7 @@
 {
     public class DeleteProjectDTO
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
         public Guid DeleterId { get; set; }
     }
 }

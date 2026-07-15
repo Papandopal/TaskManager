@@ -8,6 +8,7 @@ namespace UseCase.ProjectTaskServices.Services.DTOs
 {
     public class CreateProjectTaskUseCaseDTO
     {
+        public Guid ProjectId { get; init; }
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DateTime DueDate { get; set; }

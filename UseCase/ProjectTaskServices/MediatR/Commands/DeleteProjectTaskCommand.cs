@@ -11,6 +11,6 @@ namespace UseCase.ProjectTaskServices.MediatR.Commands
     public class DeleteProjectTaskCommand : IRequest<DeleteProjectTaskResponce>
     {
         public Guid Id { get; init; }
-        public Guid DeleterId { get; init; }
+        public Guid DeleterId { get; set; }
     }
 }

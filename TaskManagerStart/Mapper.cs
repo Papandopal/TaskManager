@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using TaskManagerStart.DTOs.Project;
+using TaskManagerStart.DTOs.ProjectTask;
 using TaskManagerStart.DTOs.User;
 using UseCase.GeneralServices.DTOs;
 using UseCase.ProjectServices.MediatR.Commands;
@@ -14,7 +15,7 @@ namespace TaskManagerStart
 {
     public class Mapper : Profile
     {
-        public Mapper() 
+        public Mapper()
         {
             CreateMap<RegistrateUserDTO, RegistrateUserCommand>();
             CreateMap<RegistrateUserCommand, CreatePasswordHashDTO>();
@@ -30,7 +31,7 @@ namespace TaskManagerStart
             CreateMap<CreateProjectCommand, CreateProjectUseCaseDTO>();
             CreateMap<CreateProjectUseCaseDTO, Project>();
 
-            CreateMap<DeleteProjectDTO, DeleteProjectCommand>();  
+            CreateMap<DeleteProjectDTO, DeleteProjectCommand>();
             CreateMap<DeleteProjectCommand, DeleteProjectUseCaseDTO>();
 
             CreateMap<FindProjectsDTO, FindProjectsInfoCommand>();
@@ -55,24 +56,31 @@ namespace TaskManagerStart
 
             CreateMap<Project, LongProjectInfoDTO>();
 
+            CreateMap<CreateProjectTaskDTO, CreateProjectTaskCommand>();
             CreateMap<CreateProjectTaskCommand, CreateProjectTaskUseCaseDTO>();
-            CreateMap<CreateProjectTaskUseCaseDTO, Project>();
+            CreateMap<CreateProjectTaskUseCaseDTO, ProjectTask>();
 
+            CreateMap<ChangeProjectTaskStatusDTO, ChangeProjectTaskStatusCommand>();
             CreateMap<ChangeProjectTaskStatusCommand, ChangeProjectTaskStatusUseCaseDTO>();
             CreateMap<ChangeProjectTaskStatusUseCaseDTO, ProjectTask>();
 
+            CreateMap<DeleteProjectTaskDTO, DeleteProjectTaskCommand>();
             CreateMap<DeleteProjectTaskCommand, DeleteProjectTaskUseCaseDTO>();
 
+            CreateMap<UpdateProjectDTO, UpdateProjectCommand>();
             CreateMap<UpdateProjectTaskCommand, UpdateProjectTaskUseCaseDTO>();
             CreateMap<UpdateProjectTaskUseCaseDTO, ProjectTask>().ForAllMembers(opt =>
             {
                 opt.Condition((src, desc, srcMember) => srcMember is not null);
             });
 
+            CreateMap<FilterProjectTasksInfoDTO, FilterProjectTasksInfoCommand>();
             CreateMap<FilterProjectTasksInfoCommand, FilterItemsDTO>();
 
+            CreateMap<FindProjectTasksInfoDTO, FindProjectTasksInfoCommand>();
             CreateMap<FindProjectTasksInfoCommand, FindItemsDTO>();
 
+            CreateMap<SortProjectTasksInfoDTO, SortProjectTasksInfoCommand>();
             CreateMap<SortProjectTasksInfoCommand, SortItemsDTO>();
 
             CreateMap<ProjectTask, ProjectTaskInfoDTO>();

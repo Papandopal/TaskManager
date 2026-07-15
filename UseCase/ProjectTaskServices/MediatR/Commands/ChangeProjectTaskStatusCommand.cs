@@ -12,7 +12,7 @@ namespace UseCase.ProjectTaskServices.MediatR.Commands
     public class ChangeProjectTaskStatusCommand : IRequest<ChangeProjectTaskStatusResponce>
     {
         public Guid Id { get; init; }
-        public Guid ChangerId { get; init; }
+        public Guid ChangerId { get; set; }
         public ProjectTaskStatus Status { get; set; }
     }
 }

@@ -151,3 +151,127 @@ Authorization: Bearer {{Token}}
     "PropertyName": "Id",
     "SortMode": 0
 }
+
+###
+@ProjectId1 = 0bc9349e-7e37-4d49-457b-08dee19bccf6
+@ProjectId2 = a58cd453-4663-4554-457c-08dee19bccf6
+POST https://localhost:7292/api/ProjectTask/Create
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+Authorization: Bearer {{Token}}
+
+{
+    "ProjectId": "{{ProjectId1}}",
+    "Title": "AbobaTask1",
+    "Description": "jwnrieurne",
+    "DueDate": "2026-07-18"
+}
+
+###
+
+POST https://localhost:7292/api/ProjectTask/Create
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+Authorization: Bearer {{Token}}
+
+{
+    "ProjectId": "{{ProjectId1}}",
+    "Title": "AbobaTask2",
+    "Description": "jwnriwmrfweurne",
+    "DueDate": "2026-07-19"
+}
+
+###
+
+POST https://localhost:7292/api/ProjectTask/Create
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+Authorization: Bearer {{Token}}
+
+{
+    "ProjectId": "{{ProjectId2}}",
+    "Title": "AbobaTask3",
+    "Description": "jwnrwpmaposfvvvvvvieurne",
+    "DueDate": "2026-07-20"
+}
+
+###
+
+POST https://localhost:7292/api/ProjectTask/Create
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+Authorization: Bearer {{Token}}
+
+{
+    "ProjectId": "{{ProjectId2}}",
+    "Title": "AbobaTask4",
+    "Description": "jwnrieurnepslo[rkpekpa",
+    "DueDate": "2026-07-21"
+}
+
+###
+GET https://localhost:7292/api/ProjectTask/GetAll
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+Authorization: Bearer {{Token}}
+
+###
+@TaskId=0fa9c0e8-0cf3-4578-2a9a-08dee2939e8d
+POST https://localhost:7292/api/ProjectTask/ChangeStatus
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+Authorization: Bearer {{Token}}
+
+{
+    "Id": "{{TaskId}}",
+    "Status": "Done"
+}
+
+###
+
+GET https://localhost:7292/api/ProjectTask/Find
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+Authorization: Bearer {{Token}}
+
+{
+    "PropertyName": "Description",
+    "PropertyValue": "Jwnriwmrfweurne",
+    "FindFlags": 2
+}
+
+###
+
+GET https://localhost:7292/api/ProjectTask/Filter
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+Authorization: Bearer {{Token}}
+
+{
+    "PropertyName": "Id",
+    "PropertyValue": "0fa9c0e8-0cf3-4578-2a9a-08dee2939e8d",
+    "FilterComparer": "LessEqual"
+}
+
+###
+
+GET https://localhost:7292/api/ProjectTask/Sort
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+Authorization: Bearer {{Token}}
+
+{
+    "PropertyName": "DueDate",
+    "SortMode": 1
+}
+
+###
+
+POST https://localhost:7292/api/ProjectTask/Delete
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+Authorization: Bearer {{Token}}
+
+{
+    "Id": "{{TaskId}}"
+}
