@@ -7,7 +7,7 @@ using FuzzySharp;
 using UseCase.ProjectServices.MediatR.Enums;
 using UseCase.ProjectServices.Services.DTOs;
 
-namespace UseCase.ProjectServices.Services
+namespace UseCase.GeneralServices
 {
     public class PaginationService<T>
     {
@@ -137,8 +137,8 @@ namespace UseCase.ProjectServices.Services
             if (converter is null || !converter.CanConvertFrom(typeof(string)))
                 throw new Exception($"cannot convert string to {filterProjectsDTO.PropertyName}");
 
-            parameter = ParameterExpression.Parameter(typeof(T), typeof(T).Name);
-            member = MemberExpression.Property(parameter, property.Name);
+            parameter = Expression.Parameter(typeof(T), typeof(T).Name);
+            member = Expression.Property(parameter, property.Name);
 
             var convertedObj = converter.ConvertFrom(filterProjectsDTO.PropertyValue);
             searchValue = Expression.Constant(convertedObj, property.PropertyType);

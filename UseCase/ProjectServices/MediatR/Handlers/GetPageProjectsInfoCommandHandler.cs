@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using UseCase.GeneralServices;
 using UseCase.ProjectServices.MediatR.Commands;
 using UseCase.ProjectServices.MediatR.Responces;
 using UseCase.ProjectServices.Services;

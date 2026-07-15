@@ -8,6 +8,7 @@ using UseCase.UserServices.Services;
 using Domain.Entities;
 using UseCase.ProjectServices.Services;
 using Microsoft.EntityFrameworkCore;
+using UseCase.GeneralServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
