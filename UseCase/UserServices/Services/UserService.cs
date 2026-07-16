@@ -2,10 +2,11 @@
 using Domain.Entities;
 using UseCase.UserServices.Services.DTOs;
 using UseCase.Database;
+using UseCase.UserServices.Services.Interfaces;
 
 namespace UseCase.UserServices.Services
 {
-    public class UserService(IUnitOfWork unitOfWork, IMapper mapper)
+    public class UserService(IUnitOfWork unitOfWork, IMapper mapper) : IUserService
     {
         public void RegistrateUser(RegistrateUserUseCaseDTO registrateUserDTO)
         {

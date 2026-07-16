@@ -3,15 +3,14 @@ using AutoMapper;
 using MediatR;
 using UseCase.UserServices.MediatR.Commands;
 using UseCase.UserServices.MediatR.Responces;
-using UseCase.UserServices.Services;
 using UseCase.UserServices.Services.DTOs;
-using UseCase.Database;
+using UseCase.UserServices.Services.Interfaces;
 
 namespace UseCase.UserServices.MediatR.Handlers
 {
     
-    public class RegistrateUserCommandHandler(IMapper mapper, UserService userService, JwtService jwtService,
-        CryptService cryptService) : IRequestHandler<RegistrateUserCommand, RegistrateUserResponce>
+    public class RegistrateUserCommandHandler(IMapper mapper, IUserService userService, IJwtService jwtService,
+        ICryptService cryptService) : IRequestHandler<RegistrateUserCommand, RegistrateUserResponce>
     {
         public Task<RegistrateUserResponce> Handle(RegistrateUserCommand request, CancellationToken cancellationToken)
         {

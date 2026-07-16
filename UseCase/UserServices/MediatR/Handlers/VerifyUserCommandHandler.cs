@@ -3,12 +3,12 @@ using AutoMapper;
 using MediatR;
 using UseCase.UserServices.MediatR.Commands;
 using UseCase.UserServices.MediatR.Responces;
-using UseCase.UserServices.Services;
+using UseCase.UserServices.Services.Interfaces;
 using UseCase.UserServices.Services.DTOs;
 
 namespace UseCase.UserServices.MediatR.Handlers
 {
-    public class VerifyUserService(IMapper mapper, UserService userService, CryptService cryptService, JwtService jwtService) : IRequestHandler<VerifyUserCommand, VerifyUserResponce>
+    public class VerifyUserService(IMapper mapper, IUserService userService, ICryptService cryptService, IJwtService jwtService) : IRequestHandler<VerifyUserCommand, VerifyUserResponce>
     {
         public Task<VerifyUserResponce> Handle(VerifyUserCommand request, CancellationToken cancellationToken)
         {

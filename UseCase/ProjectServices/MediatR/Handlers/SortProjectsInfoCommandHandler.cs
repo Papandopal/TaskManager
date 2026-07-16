@@ -15,7 +15,7 @@ using UseCase.ProjectServices.Services.DTOs;
 
 namespace UseCase.ProjectServices.MediatR.Handlers
 {
-    public class SortProjectsInfoCommandHandler(ProjectService projectService, PaginationService<Project> paginationService,
+    public class SortProjectsInfoCommandHandler(IProjectService projectService, IPaginationService<Project> paginationService,
         IMapper mapper) : IRequestHandler<SortProjectsInfoCommand, SortProjectsInfoResponce>
     {
         public Task<SortProjectsInfoResponce> Handle(SortProjectsInfoCommand request, CancellationToken cancellationToken)

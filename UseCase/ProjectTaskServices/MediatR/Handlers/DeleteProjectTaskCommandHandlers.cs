@@ -12,7 +12,7 @@ using UseCase.ProjectTaskServices.Services.DTOs;
 
 namespace UseCase.ProjectTaskServices.MediatR.Handlers
 {
-    public class DeleteProjectTaskCommandHandlers(ProjectTaskService projectTaskService, IMapper mapper) 
+    public class DeleteProjectTaskCommandHandlers(IProjectTaskService projectTaskService, IMapper mapper) 
         : IRequestHandler<DeleteProjectTaskCommand, DeleteProjectTaskResponce>
     {
         public Task<DeleteProjectTaskResponce> Handle(DeleteProjectTaskCommand request, CancellationToken cancellationToken)

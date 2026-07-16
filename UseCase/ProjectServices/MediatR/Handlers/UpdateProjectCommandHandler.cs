@@ -12,7 +12,7 @@ using UseCase.ProjectServices.Services.DTOs;
 
 namespace UseCase.ProjectServices.MediatR.Handlers
 {
-    public class UpdateProjectCommandHandler(ProjectService projectService, IMapper mapper) : IRequestHandler<UpdateProjectCommand, UpdateProjectResponce>
+    public class UpdateProjectCommandHandler(IProjectService projectService, IMapper mapper) : IRequestHandler<UpdateProjectCommand, UpdateProjectResponce>
     {
         public Task<UpdateProjectResponce> Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
         {

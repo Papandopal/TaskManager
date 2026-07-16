@@ -10,7 +10,7 @@ using UseCase.ProjectTaskServices.Services.DTOs;
 
 namespace UseCase.ProjectTaskServices.Services
 {
-    public class ProjectTaskService(IUnitOfWork unitOfWork, IMapper mapper)
+    public class ProjectTaskService(IUnitOfWork unitOfWork, IMapper mapper) : IProjectTaskService
     {
         public void Create(CreateProjectTaskUseCaseDTO createProjectTaskUseCaseDTO)
         {

@@ -7,7 +7,7 @@ using UseCase.ProjectServices.Services.DTOs;
 
 namespace UseCase.ProjectServices.MediatR.Handlers
 {
-    public class CreateProjectCommandHandler(IMapper mapper, ProjectService projectService) : IRequestHandler<CreateProjectCommand, CreateProjectResponce>
+    public class CreateProjectCommandHandler(IMapper mapper, IProjectService projectService) : IRequestHandler<CreateProjectCommand, CreateProjectResponce>
     {
         public Task<CreateProjectResponce> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {

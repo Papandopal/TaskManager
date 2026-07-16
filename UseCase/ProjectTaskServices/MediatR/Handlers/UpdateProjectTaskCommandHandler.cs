@@ -14,7 +14,7 @@ using UseCase.ProjectTaskServices.Services.DTOs;
 
 namespace UseCase.ProjectTaskServices.MediatR.Handlers
 {
-    public class UpdateProjectTaskCommandHandler(ProjectTaskService projectTaskService, IMapper mapper) 
+    public class UpdateProjectTaskCommandHandler(IProjectTaskService projectTaskService, IMapper mapper) 
         : IRequestHandler<UpdateProjectTaskCommand, UpdateProjectTaskResponce>
     {
         public Task<UpdateProjectTaskResponce> Handle(UpdateProjectTaskCommand request, CancellationToken cancellationToken)

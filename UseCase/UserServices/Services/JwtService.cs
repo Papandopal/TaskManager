@@ -2,10 +2,11 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using UseCase.UserServices.Services.DTOs;
+using UseCase.UserServices.Services.Interfaces;
 
 namespace UseCase.UserServices.Services
 {
-    public class JwtService(AuthentificationOptions authentificationOptions)
+    public class JwtService(AuthentificationOptions authentificationOptions) : IJwtService
     {
         public JwtSecurityToken GenerateJwtTokent(GenerateJwtDTO generateJwtDTO)
         {

@@ -1,8 +1,9 @@
 ﻿using UseCase.UserServices.Services.DTOs;
+using UseCase.UserServices.Services.Interfaces;
 
 namespace UseCase.UserServices.Services
 {
-    public class CryptService
+    public class CryptService : ICryptService
     {
         public string CreatePasswordHash(CreatePasswordHashDTO createPasswordHashDTO)
         {

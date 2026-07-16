@@ -12,7 +12,7 @@ using UseCase.ProjectServices.Services;
 
 namespace UseCase.ProjectServices.MediatR.Handlers
 {
-    public class GetLongProjectInfoCommandHandler(ProjectService projectService, IMapper mapper) : IRequestHandler<GetLongProjectInfoCommand, GetLongProjectInfoResponce>
+    public class GetLongProjectInfoCommandHandler(IProjectService projectService, IMapper mapper) : IRequestHandler<GetLongProjectInfoCommand, GetLongProjectInfoResponce>
     {
         public Task<GetLongProjectInfoResponce> Handle(GetLongProjectInfoCommand request, CancellationToken cancellationToken)
         {

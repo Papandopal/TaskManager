@@ -9,7 +9,7 @@ using UseCase.GeneralServices.Enums;
 
 namespace UseCase.GeneralServices
 {
-    public class PaginationService<T>
+    public class PaginationService<T> : IPaginationService<T>
     {
         private IEnumerable<T> items = new List<T>();
         public List<T> ToList() => items.ToList();
@@ -20,7 +20,7 @@ namespace UseCase.GeneralServices
             this.items = items;
         }
 
-        public PaginationService<T> GetPage(int page, int size)
+        public IPaginationService<T> GetPage(int page, int size)
         {
             if ((page - 1) * size >= items.Count()) throw new Exception("invalide page number");
             items = items.Skip((page - 1) * size).Take(size < items.Count() ? size : items.Count());
@@ -103,7 +103,7 @@ namespace UseCase.GeneralServices
             return new_items;
         }
 
-        public PaginationService<T> Find(FindItemsDTO findItemsDTO)
+        public IPaginationService<T> Find(FindItemsDTO findItemsDTO)
         {
             if (findItemsDTO.FindFlags.HasFlag(FindFlags.CaseInsensitive | FindFlags.UseFuzzySearch))
                 items = FindCaseInsensetiveUseFuzzySearch(findItemsDTO.PropertyName, findItemsDTO.PropertyValue);
@@ -120,7 +120,7 @@ namespace UseCase.GeneralServices
             return this;
         }
 
-        public PaginationService<T> Filter(FilterItemsDTO filterItemsDTO)
+        public IPaginationService<T> Filter(FilterItemsDTO filterItemsDTO)
         {
             var item = items.First();
             ParameterExpression? parameter = null;
@@ -175,21 +175,20 @@ namespace UseCase.GeneralServices
             return this;
         }
 
-        private PaginationService<T> SortBy(Expression<Func<T, object?>> keyExpression)
+        private IEnumerable<T> SortBy(Expression<Func<T, object?>> keyExpression)
         {
-            items = items.AsQueryable().OrderBy(keyExpression);
-            return this;
+            IEnumerable<T> new_items = items.AsQueryable().OrderBy(keyExpression);
+            return new_items;
         }
 
-        private PaginationService<T> DescSortBy(Expression<Func<T, object?>> keyExpression)
+        private IEnumerable<T> DescSortBy(Expression<Func<T, object?>> keyExpression)
         {
-            items = items.AsQueryable().OrderByDescending(keyExpression);
-            return this;
+            IEnumerable<T> new_items = items.AsQueryable().OrderByDescending(keyExpression);
+            return new_items;
         }
 
-        public PaginationService<T> Sort(SortItemsDTO sortItemsDTO)
+        public IPaginationService<T> Sort(SortItemsDTO sortItemsDTO)
         {
-
             Expression parameter = null;
             Expression member = null;
 
@@ -205,11 +204,12 @@ namespace UseCase.GeneralServices
 
             Expression<Func<T, object?>> expression = Expression.Lambda<Func<T, object?>>(member, (ParameterExpression)parameter);
 
-            if (sortItemsDTO.SortMode == SortMode.Ascending) return SortBy(expression);
-            else return DescSortBy(expression);
+            if (sortItemsDTO.SortMode == SortMode.Ascending) items = SortBy(expression);
+            else items = DescSortBy(expression);
+            return this;
         }
 
-        public PaginationService<T> Limit(int count)
+        public IPaginationService<T> Limit(int count)
         {
             items = items.Take(count);
             return this;
