@@ -63,11 +63,16 @@ builder.Services.AddTransient<ProjectTaskService>();
 builder.Services.AddSingleton<AuthentificationOptions>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
