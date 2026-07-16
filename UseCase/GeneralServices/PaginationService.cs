@@ -3,13 +3,15 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using FluentValidation;
 using FuzzySharp;
 using UseCase.GeneralServices.DTOs;
 using UseCase.GeneralServices.Enums;
 
 namespace UseCase.GeneralServices
 {
-    public class PaginationService<T> : IPaginationService<T>
+    public class PaginationService<T>(IValidator<FindItemsDTO> findValidator, IValidator<FilterItemsDTO> filterValidator,
+        IValidator<SortItemsDTO> sortValidator) : IPaginationService<T>
     {
         private IEnumerable<T> items = new List<T>();
         public List<T> ToList() => items.ToList();
@@ -22,7 +24,10 @@ namespace UseCase.GeneralServices
 
         public IPaginationService<T> GetPage(int page, int size)
         {
+            if(page <= 0 || size <= 0) throw new Exception("invalide input data");
+
             if ((page - 1) * size >= items.Count()) throw new Exception("invalide page number");
+
             items = items.Skip((page - 1) * size).Take(size < items.Count() ? size : items.Count());
             return this;
         }
@@ -105,6 +110,8 @@ namespace UseCase.GeneralServices
 
         public IPaginationService<T> Find(FindItemsDTO findItemsDTO)
         {
+            findValidator.ValidateAndThrow(findItemsDTO);
+
             if (findItemsDTO.FindFlags.HasFlag(FindFlags.CaseInsensitive | FindFlags.UseFuzzySearch))
                 items = FindCaseInsensetiveUseFuzzySearch(findItemsDTO.PropertyName, findItemsDTO.PropertyValue);
 
@@ -122,6 +129,8 @@ namespace UseCase.GeneralServices
 
         public IPaginationService<T> Filter(FilterItemsDTO filterItemsDTO)
         {
+            filterValidator.ValidateAndThrow(filterItemsDTO);
+
             var item = items.First();
             ParameterExpression? parameter = null;
             MemberExpression? member = null;
@@ -189,6 +198,8 @@ namespace UseCase.GeneralServices
 
         public IPaginationService<T> Sort(SortItemsDTO sortItemsDTO)
         {
+            sortValidator.ValidateAndThrow(sortItemsDTO);
+
             Expression parameter = null;
             Expression member = null;
 

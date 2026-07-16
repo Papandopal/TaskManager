@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using UseCase.GeneralServices;
 using UseCase.ProjectTaskServices.Services;
 using UseCase.UserServices.Services.Interfaces;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +70,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+builder.Services.AddValidatorsFromAssembly(typeof(UseCase.Database.IUnitOfWork).Assembly);
 
 var app = builder.Build();
 

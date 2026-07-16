@@ -28,7 +28,7 @@ namespace TaskManagerStart.Controllers
             return new JsonResult(responce);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Authorize]
         public async Task<JsonResult> Update(UpdateProjectTaskDTO updateProjectTaskDTO)
         {
@@ -47,7 +47,7 @@ namespace TaskManagerStart.Controllers
             return new JsonResult(responce);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Authorize]
         public async Task<JsonResult> ChangeStatus(ChangeProjectTaskStatusDTO changeProjectTaskStatusDTO)
         {

@@ -9,10 +9,10 @@ using UseCase.ProjectServices.MediatR.Responces;
 
 namespace UseCase.ProjectServices.MediatR.Commands
 {
-    public class UpdateProjectCommand : IRequest<UpdateProjectResponce>
+    public class ChangeProjectStatusCommand : IRequest<ChangeProjectStatusResponce>
     {
         public Guid Id { get; init; }
-        public Guid UpdaterId { get; set; }
-        public string? Name { get; set; }
+        public Guid ChangerId { get; set; }
+        public ProjectStatus Status { get; set; }
     }
 }

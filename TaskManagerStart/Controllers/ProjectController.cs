@@ -74,6 +74,26 @@ namespace TaskManagerStart.Controllers
             return new JsonResult(responce);
         }
 
+        [HttpPut]
+        [Authorize]
+
+        public async Task<JsonResult> ChangeStatus(ChangeProjectStatusDTO changeProjectStatusDTO)
+        {
+            var command = mapper.Map<ChangeProjectStatusCommand>(changeProjectStatusDTO);
+
+            var token = HttpContext.Request.Headers["Authorization"];
+            if (string.IsNullOrEmpty(token)) throw new Exception("Authorization token not found");
+
+            Guid ownerId;
+            if (!Guid.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out ownerId))
+                throw new Exception("Owner id not found in claims");
+
+            command.ChangerId = ownerId;
+
+            var responce = await mediator.Send(command);
+            return new JsonResult(responce);
+        }
+
         [HttpGet]
         [Authorize]
         public async Task<JsonResult> Find(FindProjectsDTO findProjectsDTO)

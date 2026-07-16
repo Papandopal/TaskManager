@@ -5,16 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Entities;
+using FluentValidation;
 using UseCase.Database;
 using UseCase.ProjectTaskServices.Services.DTOs;
 
 namespace UseCase.ProjectTaskServices.Services
 {
-    public class ProjectTaskService(IUnitOfWork unitOfWork, IMapper mapper) : IProjectTaskService
+    public class ProjectTaskService(IUnitOfWork unitOfWork, IMapper mapper, IValidator<UpdateProjectTaskUseCaseDTO> updateValidator,
+        IValidator<ChangeProjectTaskStatusUseCaseDTO> changeStatusValidator, IValidator<CreateProjectTaskUseCaseDTO> createValidator,
+        IValidator<DeleteProjectTaskUseCaseDTO> deleteValidator) : IProjectTaskService
     {
         public void Create(CreateProjectTaskUseCaseDTO createProjectTaskUseCaseDTO)
         {
             unitOfWork.StartTransaction();
+
+            createValidator.ValidateAndThrow(createProjectTaskUseCaseDTO);
 
             var projectTask = mapper.Map<ProjectTask>(createProjectTaskUseCaseDTO);
 
@@ -30,11 +35,7 @@ namespace UseCase.ProjectTaskServices.Services
             var projectTask = unitOfWork.ProjectTaskRepository.GetById(updateProjectTaskUseCaseDTO.Id);
             var project = unitOfWork.ProjectRepository.GetById(projectTask.ProjectId);
 
-            if(updateProjectTaskUseCaseDTO.UpdaterId != project.OwnerId)
-            {
-                unitOfWork.Rollback();
-                throw new Exception("Access denied");
-            }
+            updateValidator.ValidateAndThrow(updateProjectTaskUseCaseDTO);
 
             mapper.Map(updateProjectTaskUseCaseDTO, projectTask);
 
@@ -50,11 +51,7 @@ namespace UseCase.ProjectTaskServices.Services
             var projectTask = unitOfWork.ProjectTaskRepository.GetById(changeProjectTaskStatusUseCaseDTO.Id);
             var project = unitOfWork.ProjectRepository.GetById(projectTask.ProjectId);
 
-            if (changeProjectTaskStatusUseCaseDTO.ChangerId != project.OwnerId)
-            {
-                unitOfWork.Rollback();
-                throw new Exception("Access denied");
-            }
+            changeStatusValidator.ValidateAndThrow(changeProjectTaskStatusUseCaseDTO);  
 
             mapper.Map(changeProjectTaskStatusUseCaseDTO, projectTask);
 
@@ -70,11 +67,7 @@ namespace UseCase.ProjectTaskServices.Services
             var projectTask = unitOfWork.ProjectTaskRepository.GetById(deleteProjectTaskUseCaseDTO.Id);
             var project = unitOfWork.ProjectRepository.GetById(projectTask.ProjectId);
 
-            if (deleteProjectTaskUseCaseDTO.DeleterId != project.OwnerId)
-            {
-                unitOfWork.Rollback();
-                throw new Exception("Access denied");
-            }
+            deleteValidator.ValidateAndThrow(deleteProjectTaskUseCaseDTO);
 
             projectTask.Delete();
 

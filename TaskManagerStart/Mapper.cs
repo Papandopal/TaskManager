@@ -52,6 +52,10 @@ namespace TaskManagerStart
                 opt.Condition((src, desc, srcMember) => srcMember is not null);
             });
 
+            CreateMap<ChangeProjectStatusDTO, ChangeProjectStatusCommand>();
+            CreateMap<ChangeProjectStatusCommand,  ChangeProjectStatusUseCaseDTO>();
+            CreateMap<ChangeProjectStatusUseCaseDTO, Project>();
+
             CreateMap<Project, ShortProjectInfoDTO>();
 
             CreateMap<Project, LongProjectInfoDTO>();

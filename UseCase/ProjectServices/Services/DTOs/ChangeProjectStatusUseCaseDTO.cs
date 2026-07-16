@@ -7,10 +7,10 @@ using Domain.Enums;
 
 namespace UseCase.ProjectServices.Services.DTOs
 {
-    public class UpdateProjectUseCaseDTO
+    public class ChangeProjectStatusUseCaseDTO
     {
         public Guid Id { get; init; }
-        public Guid UpdaterId { get; set; }
-        public string? Name { get; set; }
+        public Guid ChangerId { get; init; }
+        public ProjectStatus Status { get; set; }
     }
 }
