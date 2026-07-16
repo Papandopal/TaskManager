@@ -8,6 +8,6 @@ namespace UseCase.UserServices.MediatR.Commands
     {
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; } = DateTime.Now;
+        public DateTime CreatedAt { get; set;}
     }
 }

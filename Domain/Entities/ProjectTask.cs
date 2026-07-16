@@ -16,5 +16,10 @@ namespace Domain.Entities
         public ProjectTaskStatus Status { get; set; }
         public DateTime DueDate { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public void Delete()
+        {
+            IsDeleted = true;
+        }
     }
 }

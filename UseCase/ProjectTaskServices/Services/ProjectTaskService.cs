@@ -76,7 +76,9 @@ namespace UseCase.ProjectTaskServices.Services
                 throw new Exception("Access denied");
             }
 
-            unitOfWork.ProjectTaskRepository.Delete(deleteProjectTaskUseCaseDTO.Id);
+            projectTask.Delete();
+
+            unitOfWork.ProjectTaskRepository.Update(projectTask);
 
             unitOfWork.Commit();
         }

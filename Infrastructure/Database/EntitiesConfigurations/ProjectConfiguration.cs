@@ -16,6 +16,7 @@ namespace Infrastructure.Database.EntitiesConfigurations
                    .WithOne()
                    .HasForeignKey(t=>t.ProjectId)
                    .OnDelete(DeleteBehavior.Cascade);
+            builder.HasQueryFilter(x => !x.IsDeleted);  
         }
     }
 }

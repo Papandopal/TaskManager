@@ -17,6 +17,7 @@ namespace Infrastructure.Database.EntitiesConfigurations
             builder.HasKey(x => x.Id);
             builder.Property(x=>x.Id)
                    .HasValueGenerator<Microsoft.EntityFrameworkCore.ValueGeneration.SequentialGuidValueGenerator>();
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

@@ -20,8 +20,8 @@ namespace Infrastructure.Database.EntitiesConfigurations
             builder.HasMany<Project>()
                    .WithOne()
                    .HasForeignKey(p => p.OwnerId);
-                   
 
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

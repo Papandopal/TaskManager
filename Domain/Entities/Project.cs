@@ -14,5 +14,10 @@ namespace Domain.Entities
         public string Name { get; set; } = string.Empty;
         public ProjectStatus Status { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public void Delete()
+        {
+            IsDeleted = true;
+        }
     }
 }
