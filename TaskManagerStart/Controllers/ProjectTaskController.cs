@@ -19,9 +19,8 @@ namespace TaskManagerStart.Controllers
         [Authorize]
         public async Task<JsonResult> Create(CreateProjectTaskDTO createProjectTaskDTO)
         {
+            createProjectTaskDTO.DueDate = createProjectTaskDTO.DueDate.ToUniversalTime();
             var command = mapper.Map<CreateProjectTaskCommand>(createProjectTaskDTO);
-
-            command.CreatedAt = DateTime.Now;
 
             var responce = await mediator.Send(command);
 

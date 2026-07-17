@@ -11,15 +11,15 @@ using UseCase.GeneralServices;
 using UseCase.ProjectTaskServices.Services;
 using UseCase.UserServices.Services.Interfaces;
 using FluentValidation;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .Build();
+#if DEBUG
+builder.Configuration.AddJsonFile("DbConnection.json", optional: false, reloadOnChange: true);
+#endif
 
-var authenticationOptions = new AuthentificationOptions(configuration);
+var authenticationOptions = new AuthentificationOptions(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
@@ -51,7 +51,7 @@ builder.Services.AddMediatR(opt =>
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
-    opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddTransient<IUserService, UserService>();
@@ -74,6 +74,12 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddValidatorsFromAssembly(typeof(UseCase.Database.IUnitOfWork).Assembly);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {

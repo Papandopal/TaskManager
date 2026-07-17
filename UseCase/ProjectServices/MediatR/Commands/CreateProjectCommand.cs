@@ -12,6 +12,6 @@ namespace UseCase.ProjectServices.MediatR.Commands
     {
         public Guid OwnerId { get; set; }
         public string Name { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

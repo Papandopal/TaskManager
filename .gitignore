@@ -23,7 +23,7 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
-DbConnection.json
+*/DbConnection.json
 
 .vs/
 cso.dat
