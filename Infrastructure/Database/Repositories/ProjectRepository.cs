@@ -20,7 +20,7 @@ namespace Infrastructure.Database.Repositories
             projects.Remove(project);
         }
 
-        public IEnumerable<Project> GetAll()
+        public IQueryable<Project> GetAll()
         {
             return projects;
         }

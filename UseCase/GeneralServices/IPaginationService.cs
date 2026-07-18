@@ -9,7 +9,7 @@ namespace UseCase.GeneralServices
 {
     public interface IPaginationService<T>
     {
-        public void SetItems(IEnumerable<T> items);
+        public void SetItems(IQueryable<T> items);
         public IEnumerable<T> ToEnumerable();
         public IPaginationService<T> GetPage(int page, int size);
         public IPaginationService<T> Find(FindItemsDTO findItemsDTO);

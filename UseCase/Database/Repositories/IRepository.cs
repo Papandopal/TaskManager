@@ -13,6 +13,6 @@ namespace UseCase.Database.Repositories
         public void Delete(Guid id);
         public bool IsExists(Guid id);
         public T GetById(Guid id);
-        public IEnumerable<T> GetAll();
+        public IQueryable<T> GetAll();
     }
 }

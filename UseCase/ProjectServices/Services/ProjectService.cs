@@ -83,7 +83,7 @@ namespace UseCase.ProjectServices.Services
             return project;
         }
 
-        public IEnumerable<Project> GetAll()
+        public IQueryable<Project> GetAll()
         {
             unitOfWork.StartTransaction();
 

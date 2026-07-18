@@ -19,7 +19,7 @@ namespace Infrastructure.Database.Repositories
             tasks.Remove(task);
         }
 
-        public IEnumerable<ProjectTask> GetAll()
+        public IQueryable<ProjectTask> GetAll()
         {
             return tasks;
         }
@@ -31,7 +31,7 @@ namespace Infrastructure.Database.Repositories
             return task;
         }
 
-        public IEnumerable<ProjectTask> GetByProjectId(Guid projectId)
+        public IQueryable<ProjectTask> GetByProjectId(Guid projectId)
         {
             return tasks.Where(x => x.ProjectId == projectId);
         }

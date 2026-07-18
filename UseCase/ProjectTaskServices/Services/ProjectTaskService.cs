@@ -87,7 +87,7 @@ namespace UseCase.ProjectTaskServices.Services
             return projectTask;
         }
 
-        public IEnumerable<ProjectTask> GetAll()
+        public IQueryable<ProjectTask> GetAll()
         {
             unitOfWork.StartTransaction();
 
@@ -98,7 +98,7 @@ namespace UseCase.ProjectTaskServices.Services
             return projectTasks;
         }
 
-        public IEnumerable<ProjectTask> GetByProjectId(Guid projectId)
+        public IQueryable<ProjectTask> GetByProjectId(Guid projectId)
         {
             unitOfWork.StartTransaction();
 

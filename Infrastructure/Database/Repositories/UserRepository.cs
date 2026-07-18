@@ -19,7 +19,7 @@ namespace Infrastructure.Database.Repositories
             users.Remove(user);
         }
 
-        public IEnumerable<User> GetAll()
+        public IQueryable<User> GetAll()
         {
             return users;
         }

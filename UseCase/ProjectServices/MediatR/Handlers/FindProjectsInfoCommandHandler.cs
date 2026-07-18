@@ -21,10 +21,14 @@ namespace UseCase.ProjectServices.MediatR.Handlers
     {
         public Task<FindProjectsInfoResponce> Handle(FindProjectsInfoCommand request, CancellationToken cancellationToken)
         {
-            IEnumerable<Project> projects = projectService.GetAll();
+            var projects = projectService.GetAll();
             paginationService.SetItems(projects);
-            projects = paginationService.Find(mapper.Map<FindItemsDTO>(request)).ToEnumerable();
-            return Task.FromResult(new FindProjectsInfoResponce { Projects = mapper.Map<IEnumerable<ShortProjectInfoDTO>>(projects)});
+            var findedProjects = paginationService.Find(mapper.Map<FindItemsDTO>(request)).ToEnumerable();
+
+            return Task.FromResult(new FindProjectsInfoResponce 
+            { 
+                Projects = mapper.Map<IEnumerable<ShortProjectInfoDTO>>(findedProjects)
+            });
         }
     }
 }

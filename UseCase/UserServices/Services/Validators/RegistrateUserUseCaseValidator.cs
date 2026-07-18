@@ -16,7 +16,7 @@ namespace UseCase.UserServices.Services.Validators
             RuleFor(x => x.Email).Must(email =>
             {
                 return !unitOfWork.UserRepository.IsExistsByEmail(email);
-            });
+            }).WithMessage("this email already in use");
         }
     }
 }

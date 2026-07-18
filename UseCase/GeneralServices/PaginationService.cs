@@ -13,11 +13,11 @@ namespace UseCase.GeneralServices
     public class PaginationService<T>(IValidator<FindItemsDTO> findValidator, IValidator<FilterItemsDTO> filterValidator,
         IValidator<SortItemsDTO> sortValidator) : IPaginationService<T>
     {
-        private IEnumerable<T> items = new List<T>();
+        private IQueryable<T> items;
         public List<T> ToList() => items.ToList();
         public IEnumerable<T> ToEnumerable() => items;
 
-        public void SetItems(IEnumerable<T> items)
+        public void SetItems(IQueryable<T> items)
         {
             this.items = items;
         }
@@ -113,16 +113,16 @@ namespace UseCase.GeneralServices
             findValidator.ValidateAndThrow(findItemsDTO);
 
             if (findItemsDTO.FindFlags.HasFlag(FindFlags.CaseInsensitive | FindFlags.UseFuzzySearch))
-                items = FindCaseInsensetiveUseFuzzySearch(findItemsDTO.PropertyName, findItemsDTO.PropertyValue);
+                items = FindCaseInsensetiveUseFuzzySearch(findItemsDTO.PropertyName, findItemsDTO.PropertyValue).AsQueryable();
 
             else if (findItemsDTO.FindFlags.HasFlag(FindFlags.CaseInsensitive))
-                items = FindCaseInsensetive(findItemsDTO.PropertyName, findItemsDTO.PropertyValue);
+                items = FindCaseInsensetive(findItemsDTO.PropertyName, findItemsDTO.PropertyValue).AsQueryable();
 
             else if (findItemsDTO.FindFlags.HasFlag(FindFlags.UseFuzzySearch))
-                items = FindFuzzySearch(findItemsDTO.PropertyName, findItemsDTO.PropertyValue);
+                items = FindFuzzySearch(findItemsDTO.PropertyName, findItemsDTO.PropertyValue).AsQueryable();
 
             else
-                items = FindWithoutFlags(findItemsDTO.PropertyName, findItemsDTO.PropertyValue);
+                items = FindWithoutFlags(findItemsDTO.PropertyName, findItemsDTO.PropertyValue).AsQueryable();
 
             return this;
         }
@@ -180,20 +180,20 @@ namespace UseCase.GeneralServices
 
             Expression<Func<T, bool>> lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
 
-            items = items.Where(lambda.Compile());
+            items = items.Where(lambda);
             return this;
         }
 
-        private IEnumerable<T> SortBy(Expression<Func<T, object?>> keyExpression)
+        private IQueryable<T> SortBy(Expression<Func<T, object?>> keyExpression)
         {
-            IEnumerable<T> new_items = items.AsQueryable().OrderBy(keyExpression);
-            return new_items;
+            items = items.OrderBy(keyExpression);
+            return items;
         }
 
-        private IEnumerable<T> DescSortBy(Expression<Func<T, object?>> keyExpression)
+        private IQueryable<T> DescSortBy(Expression<Func<T, object?>> keyExpression)
         {
-            IEnumerable<T> new_items = items.AsQueryable().OrderByDescending(keyExpression);
-            return new_items;
+            items = items.OrderByDescending(keyExpression);
+            return items;
         }
 
         public IPaginationService<T> Sort(SortItemsDTO sortItemsDTO)

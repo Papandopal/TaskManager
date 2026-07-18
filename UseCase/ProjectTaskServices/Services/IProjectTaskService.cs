@@ -15,7 +15,7 @@ namespace UseCase.ProjectTaskServices.Services
         public void ChangeStatus(ChangeProjectTaskStatusUseCaseDTO changeProjectTaskStatusUseCaseDTO);
         public void Delete(DeleteProjectTaskUseCaseDTO deleteProjectTaskUseCaseDTO);
         public ProjectTask GetById(Guid id);
-        public IEnumerable<ProjectTask> GetAll();
-        public IEnumerable<ProjectTask> GetByProjectId(Guid projectId);
+        public IQueryable<ProjectTask> GetAll();
+        public IQueryable<ProjectTask> GetByProjectId(Guid projectId);
     }
 }

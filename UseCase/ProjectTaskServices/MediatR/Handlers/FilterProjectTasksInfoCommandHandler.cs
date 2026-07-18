@@ -22,11 +22,11 @@ namespace UseCase.ProjectTaskServices.MediatR.Handlers
         {
             var projectTasks = projectTaskService.GetAll();
             paginationService.SetItems(projectTasks);
-            projectTasks = paginationService.Filter(mapper.Map<FilterItemsDTO>(request)).ToEnumerable();
+            var filteredProjectTasks = paginationService.Filter(mapper.Map<FilterItemsDTO>(request)).ToEnumerable();
 
             return Task.FromResult(new FilterProjectTasksInfoResponce 
             { 
-                ProjectTasks = mapper.Map<IEnumerable<ProjectTaskInfoDTO>>(projectTasks)
+                ProjectTasks = mapper.Map<IEnumerable<ProjectTaskInfoDTO>>(filteredProjectTasks)
             });
         }
     }
